@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Plan Your Trip - TravelMind AI</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<nav>
+
+    <h2>TravelMind AI</h2>
+
+</nav>
+
+
+<section class="planner-container">
+
+
+<h1>
+    Create Your Trip
+</h1>
+
+
+<form>
+
+
+<label>
+Starting Location
+</label>
+
+<input 
+type="text"
+placeholder="Example: Regina, Saskatchewan"
+>
+
+
+<label>
+Destination
+</label>
+
+<input 
+type="text"
+placeholder="Example: Vancouver, BC"
+>
+
+
+<label>
+Number of Days
+</label>
+
+<input 
+type="number"
+placeholder="7"
+>
+
+
+<label>
+Budget ($)
+</label>
+
+<input 
+type="number"
+placeholder="1500"
+>
+
+
+<label>
+Travel Style
+</label>
+
+
+<select>
+
+<option>
+Budget
+</option>
+
+<option>
+Balanced
+</option>
+
+<option>
+Comfortable
+</option>
+
+</select>
+
+
+<label>
+Interests
+</label>
+
+
+<div>
+
+<input type="checkbox">
+Nature
+
+
+<input type="checkbox">
+Food
+
+
+<input type="checkbox">
+History
+
+
+<input type="checkbox">
+Adventure
+
+
+</div>
+
+
+<button class="main-button">
+
+Generate Trip
+
+</button>
+
+
+</form>
+
+
+</section>
+
+
+</body>
+
+</html>

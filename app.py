@@ -8,5 +8,10 @@ def home():
     return render_template("index.html")
 
 
+@app.route("/planner")
+def planner():
+    return render_template("planner.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True)
