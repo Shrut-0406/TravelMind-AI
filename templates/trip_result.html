@@ -3,9 +3,9 @@
 
 <head>
 
-<title>Your Trip - TravelMind AI</title>
+    <title>Your Trip - TravelMind AI</title>
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
 
@@ -13,48 +13,56 @@
 <body>
 
 
-<nav>
-    <h2>TravelMind AI</h2>
-</nav>
+    <nav>
+        <h2>TravelMind AI</h2>
+    </nav>
 
 
-<section class="planner-container">
+    <section class="planner-container">
 
-<h1>
-Your Trip Plan
-</h1>
-
-
-<h3>
-{{ destination }}
-</h3>
+        <h1>
+            Your Trip Plan
+        </h1>
 
 
-<p>
-Starting Point:
-{{ start }}
-</p>
+        <h3>
+            {{ destination }}
+        </h3>
 
 
-<p>
-Duration:
-{{ days }} days
-</p>
+        <p>
+            Starting Point:
+            {{ start }}
+        </p>
 
 
-<p>
-Budget:
-${{ budget }}
-</p>
+        <p>
+            Duration:
+            {{ days }} days
+        </p>
 
 
-<h2>
-Coming Soon:
-AI generated itinerary 🤖
-</h2>
+        <p>
+            Budget:
+            ${{ budget }}
+        </p>
 
 
-</section>
+        <h2>
+            AI Trip Information
+        </h2>
+
+        <p>
+            {{ trip_plan.message }}
+        </p>
+
+        <p>
+            Destination:
+            {{ trip_plan.destination }}
+        </p>
+
+
+    </section>
 
 
 </body>
