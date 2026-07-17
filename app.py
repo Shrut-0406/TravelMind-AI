@@ -1,34 +1,26 @@
-from flask import Flask, render_template, request
-
-app = Flask(__name__)
+from flask import Flask
 
 
-@app.route("/")
-def home():
-    return render_template("index.html")
+def create_app():
+
+    app = Flask(__name__)
 
 
-@app.route("/planner")
-def planner():
-    return render_template("planner.html")
+    from routes.main import main
+    from routes.planner import planner
 
 
-@app.route("/generate", methods=["POST"])
-def generate():
+    app.register_blueprint(main)
 
-    start = request.form["start"]
-    destination = request.form["destination"]
-    days = request.form["days"]
-    budget = request.form["budget"]
+    app.register_blueprint(planner)
 
-    return render_template(
-        "trip_result.html",
-        start=start,
-        destination=destination,
-        days=days,
-        budget=budget
-    )
+
+    return app
+
 
 
 if __name__ == "__main__":
+
+    app = create_app()
+
     app.run(debug=True)
