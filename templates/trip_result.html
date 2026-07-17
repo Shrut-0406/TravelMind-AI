@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Your Trip - TravelMind AI</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<nav>
+    <h2>TravelMind AI</h2>
+</nav>
+
+
+<section class="planner-container">
+
+<h1>
+Your Trip Plan
+</h1>
+
+
+<h3>
+{{ destination }}
+</h3>
+
+
+<p>
+Starting Point:
+{{ start }}
+</p>
+
+
+<p>
+Duration:
+{{ days }} days
+</p>
+
+
+<p>
+Budget:
+${{ budget }}
+</p>
+
+
+<h2>
+Coming Soon:
+AI generated itinerary 🤖
+</h2>
+
+
+</section>
+
+
+</body>
+
+</html>

@@ -13,123 +13,111 @@
 <body>
 
 
-<nav>
+    <nav>
 
-    <h2>TravelMind AI</h2>
+        <h2>TravelMind AI</h2>
 
-</nav>
-
-
-<section class="planner-container">
+    </nav>
 
 
-<h1>
-    Create Your Trip
-</h1>
+    <section class="planner-container">
 
 
-<form>
+        <h1>
+            Create Your Trip
+        </h1>
 
 
-<label>
-Starting Location
-</label>
-
-<input 
-type="text"
-placeholder="Example: Regina, Saskatchewan"
->
+        <form method="POST" action="/generate">
 
 
-<label>
-Destination
-</label>
+            <label>
+                Starting Location
+            </label>
 
-<input 
-type="text"
-placeholder="Example: Vancouver, BC"
->
+            <input type="text" name="start" placeholder="Example: Regina, Saskatchewan">
 
 
-<label>
-Number of Days
-</label>
+            <label>
+                Destination
+            </label>
 
-<input 
-type="number"
-placeholder="7"
->
+            <input type="text" name="destination" placeholder="Example: Vancouver, BC">
 
 
-<label>
-Budget ($)
-</label>
+            <label>
+                Number of Days
+            </label>
 
-<input 
-type="number"
-placeholder="1500"
->
+            <input type="number" name="days" placeholder="7">
 
 
-<label>
-Travel Style
-</label>
+            <label>
+                Budget ($)
+            </label>
+
+            <input type="number" name="budget" placeholder="1500">
 
 
-<select>
-
-<option>
-Budget
-</option>
-
-<option>
-Balanced
-</option>
-
-<option>
-Comfortable
-</option>
-
-</select>
+            <label>
+                Travel Style
+            </label>
 
 
-<label>
-Interests
-</label>
+            <select>
+
+                <option>
+                    Budget
+                </option>
+
+                <option>
+                    Balanced
+                </option>
+
+                <option>
+                    Comfortable
+                </option>
+
+            </select>
 
 
-<div>
-
-<input type="checkbox">
-Nature
-
-
-<input type="checkbox">
-Food
+            <label>
+                Interests
+            </label>
 
 
-<input type="checkbox">
-History
+            <div>
+
+                <input type="checkbox">
+                Nature
 
 
-<input type="checkbox">
-Adventure
+                <input type="checkbox">
+                Food
 
 
-</div>
+                <input type="checkbox">
+                History
 
 
-<button class="main-button">
-
-Generate Trip
-
-</button>
+                <input type="checkbox">
+                Adventure
 
 
-</form>
+            </div>
 
 
-</section>
+            <button class="main-button">
+
+                Generate Trip
+
+            </button>
+
+
+        </form>
+
+
+    </section>
 
 
 </body>
