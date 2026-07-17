@@ -1,5 +1,9 @@
 from flask import Blueprint, render_template, request
+
 from services.ai_service import generate_trip_plan
+
+from database.database import db
+from database.models import Trip
 
 
 planner = Blueprint("planner", __name__)
@@ -21,6 +25,19 @@ def generate():
     days = request.form["days"]
 
     budget = request.form["budget"]
+
+
+    new_trip = Trip(
+        start=start,
+        destination=destination,
+        days=days,
+        budget=budget
+    )
+
+
+    db.session.add(new_trip)
+
+    db.session.commit()
 
 
     trip_plan = generate_trip_plan(
