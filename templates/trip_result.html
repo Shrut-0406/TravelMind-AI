@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
-    <title>Your Trip - TravelMind AI</title>
+    <meta charset="UTF-8">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <title>Your Travel Plan - TravelMind AI</title>
 
 </head>
 
@@ -13,56 +16,228 @@
 <body>
 
 
-    <nav>
-        <h2>TravelMind AI</h2>
-    </nav>
+<nav>
+
+    <h2>
+        TravelMind AI 🌎
+    </h2>
+
+</nav>
 
 
-    <section class="planner-container">
+
+<section class="result-container">
+
+
+    <div class="result-card">
+
 
         <h1>
             Your Trip Plan
         </h1>
 
 
-        <h3>
-            {{ destination }}
-        </h3>
-
-
         <p>
-            Starting Point:
-            {{ start }}
+            Here is your personalized travel information.
         </p>
 
 
-        <p>
-            Duration:
-            {{ days }} days
-        </p>
 
 
-        <p>
-            Budget:
-            ${{ budget }}
-        </p>
+        <div class="result-section">
+
+            <h2>
+                🌎 Trip Information
+            </h2>
 
 
-        <h2>
-            AI Trip Information
-        </h2>
-
-        <p>
-            {{ trip_plan.message }}
-        </p>
-
-        <p>
-            Destination:
-            {{ trip_plan.destination }}
-        </p>
+            <p>
+                <strong>Origin:</strong>
+                {{ origin }}
+            </p>
 
 
-    </section>
+            <p>
+                <strong>Destination:</strong>
+                {{ destination }}
+            </p>
+
+
+            <p>
+                <strong>Start Date:</strong>
+                {{ start_date }}
+            </p>
+
+
+            <p>
+                <strong>End Date:</strong>
+                {{ end_date }}
+            </p>
+
+
+            <p>
+                <strong>Duration:</strong>
+                {{ days }} days
+            </p>
+
+
+        </div>
+
+
+
+
+
+        <div class="result-section">
+
+
+            <h2>
+                👥 Travelers
+            </h2>
+
+
+            <p>
+                <strong>Adults:</strong>
+                {{ adults }}
+            </p>
+
+
+            <p>
+                <strong>Children:</strong>
+                {{ children }}
+            </p>
+
+
+        </div>
+
+
+
+
+
+
+        <div class="result-section">
+
+
+            <h2>
+                💰 Budget
+            </h2>
+
+
+            <p>
+                ${{ budget }}
+            </p>
+
+
+        </div>
+
+
+
+
+
+
+        <div class="result-section">
+
+
+            <h2>
+                🚗 Preferences
+            </h2>
+
+
+            <p>
+                <strong>Transportation:</strong>
+                {{ transportation }}
+            </p>
+
+
+            <p>
+                <strong>Accommodation:</strong>
+                {{ accommodation }}
+            </p>
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="result-section">
+
+
+            <h2>
+                ❤️ Interests
+            </h2>
+
+
+            <p>
+
+                {% for interest in interests %}
+
+                    {{ interest }}
+
+                    {% if not loop.last %}
+                    ,
+                    {% endif %}
+
+                {% endfor %}
+
+            </p>
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="result-section">
+
+
+            <h2>
+                🎯 Trip Goal
+            </h2>
+
+
+            <p>
+                {{ trip_goal }}
+            </p>
+
+
+        </div>
+
+
+
+
+
+
+
+
+        <div class="ai-section">
+
+
+            <h2>
+                🤖 AI Generated Itinerary
+            </h2>
+
+
+            <p>
+                {{ trip_plan }}
+            </p>
+
+
+        </div>
+
+
+
+
+
+    </div>
+
+
+</section>
 
 
 </body>

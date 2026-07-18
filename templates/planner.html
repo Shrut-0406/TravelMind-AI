@@ -1,120 +1,339 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style.css">
 
-    <title>Plan Your Trip - TravelMind AI</title>
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>TravelMind AI - Plan Your Trip</title>
 
 </head>
 
-
 <body>
 
-
     <nav>
-
-        <h2>TravelMind AI</h2>
-
+        <h2>TravelMind AI 🌎</h2>
     </nav>
 
 
     <section class="planner-container">
 
+        <div class="planner-card">
 
-        <h1>
-            Create Your Trip
-        </h1>
+            <h1>Create Your Trip Plan</h1>
 
-
-        <form method="POST" action="/generate">
-
-
-            <label>
-                Starting Location
-            </label>
-
-            <input type="text" name="start" placeholder="Example: Regina, Saskatchewan">
+            <p>
+                Tell us your preferences and AI will create your personalized itinerary.
+            </p>
 
 
-            <label>
-                Destination
-            </label>
-
-            <input type="text" name="destination" placeholder="Example: Vancouver, BC">
+            <form action="/generate" method="POST">
 
 
-            <label>
-                Number of Days
-            </label>
+                <div class="form-section">
 
-            <input type="number" name="days" placeholder="7">
+                    <h2>📍 Trip Information</h2>
 
-
-            <label>
-                Budget ($)
-            </label>
-
-            <input type="number" name="budget" placeholder="1500">
-
-
-            <label>
-                Travel Style
-            </label>
+                    <label>Origin</label>
+                    <input 
+                        type="text"
+                        name="origin"
+                        placeholder="Example: Regina"
+                        required
+                    >
 
 
-            <select>
-
-                <option>
-                    Budget
-                </option>
-
-                <option>
-                    Balanced
-                </option>
-
-                <option>
-                    Comfortable
-                </option>
-
-            </select>
+                    <label>Destination</label>
+                    <input 
+                        type="text"
+                        name="destination"
+                        placeholder="Example: Vancouver"
+                        required
+                    >
 
 
-            <label>
-                Interests
-            </label>
+                    <div class="date-grid">
+
+                        <div>
+                            <label>Start Date</label>
+
+                            <input
+                                type="date"
+                                name="start_date"
+                                required
+                            >
+                        </div>
 
 
-            <div>
+                        <div>
+                            <label>End Date</label>
 
-                <input type="checkbox">
-                Nature
+                            <input
+                                type="date"
+                                name="end_date"
+                                required
+                            >
+                        </div>
 
-
-                <input type="checkbox">
-                Food
-
-
-                <input type="checkbox">
-                History
-
-
-                <input type="checkbox">
-                Adventure
+                    </div>
 
 
-            </div>
+                </div>
 
 
-            <button class="main-button">
 
-                Generate Trip
+                <div class="form-section">
 
-            </button>
+                    <h2>👥 Travelers</h2>
 
 
-        </form>
+                    <div class="date-grid">
+
+                        <div>
+
+                            <label>Adults</label>
+
+                            <input
+                                type="number"
+                                name="adults"
+                                value="1"
+                                min="1"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <label>Children</label>
+
+                            <input
+                                type="number"
+                                name="children"
+                                value="0"
+                                min="0"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+
+                <div class="form-section">
+
+
+                    <h2>💰 Budget</h2>
+
+
+                    <label>Total Budget ($)</label>
+
+                    <input
+                        type="number"
+                        name="budget"
+                        placeholder="2500"
+                        required
+                    >
+
+
+                </div>
+
+
+
+
+                <div class="form-section">
+
+
+                    <h2>🚗 Travel Preferences</h2>
+
+
+                    <label>Transportation</label>
+
+                    <select name="transportation" required>
+
+                        <option value="">
+                            Select option
+                        </option>
+
+                        <option>
+                            Car
+                        </option>
+
+                        <option>
+                            Rental Car
+                        </option>
+
+                        <option>
+                            Flight
+                        </option>
+
+                        <option>
+                            Train
+                        </option>
+
+                        <option>
+                            Bus
+                        </option>
+
+                    </select>
+
+
+
+                    <label>Accommodation</label>
+
+
+                    <select name="accommodation" required>
+
+                        <option value="">
+                            Select option
+                        </option>
+
+                        <option>
+                            Hotel
+                        </option>
+
+                        <option>
+                            Hostel
+                        </option>
+
+                        <option>
+                            Airbnb
+                        </option>
+
+                        <option>
+                            Camping
+                        </option>
+
+                        <option>
+                            None
+                        </option>
+
+
+                    </select>
+
+
+                </div>
+
+
+
+
+
+                <div class="form-section">
+
+
+                    <h2>❤️ Interests</h2>
+
+
+                    <div class="checkbox-grid">
+
+
+                        {% for interest in [
+                            "Nature",
+                            "Hiking",
+                            "Photography",
+                            "Food",
+                            "Shopping",
+                            "Museums",
+                            "Scenic Drives",
+                            "Wildlife",
+                            "Adventure",
+                            "History",
+                            "Relaxation",
+                            "Nightlife"
+                        ] %}
+
+
+                        <label class="checkbox-item">
+
+                            <input
+                                type="checkbox"
+                                name="interests"
+                                value="{{interest}}"
+                            >
+
+                            {{interest}}
+
+                        </label>
+
+
+                        {% endfor %}
+
+
+                    </div>
+
+
+                </div>
+
+
+
+
+                <div class="form-section">
+
+
+                    <h2>🎯 Trip Goal</h2>
+
+
+                    <select name="trip_goal" required>
+
+                        <option value="">
+                            Select goal
+                        </option>
+
+                        <option>
+                            Relaxation
+                        </option>
+
+                        <option>
+                            Adventure
+                        </option>
+
+                        <option>
+                            Family Vacation
+                        </option>
+
+                        <option>
+                            Budget Trip
+                        </option>
+
+                        <option>
+                            Luxury Trip
+                        </option>
+
+                        <option>
+                            Romantic
+                        </option>
+
+                        <option>
+                            Business
+                        </option>
+
+
+                    </select>
+
+
+                </div>
+
+
+
+                <button class="generate-button">
+
+                    Generate AI Trip 🚀
+
+                </button>
+
+
+
+            </form>
+
+
+        </div>
 
 
     </section>
