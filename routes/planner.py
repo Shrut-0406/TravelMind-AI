@@ -117,13 +117,20 @@ def generate():
 
 
 
-    # Temporary AI response
+    # AI response
     trip_plan = generate_trip_plan(
-        destination,
-        start_date,
-        end_date,
-        days,
-        budget
+        origin=origin,
+        destination=destination,
+        start_date=start_date.strftime("%Y-%m-%d"),
+        end_date=end_date.strftime("%Y-%m-%d"),
+        days=days,
+        adults=adults,
+        children=children,
+        budget=budget,
+        transportation=transportation,
+        accommodation=accommodation,
+        interests=interests,
+        trip_goal=trip_goal
     )
 
 
