@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request
 
 from services.ai_service import generate_trip_plan
+from services.image_service import get_destination_image
 
 from database.database import db
 from database.models import Trip
@@ -47,6 +48,7 @@ def generate():
     days = (end_date - start_date).days + 1
 
 
+
     # Travelers
     adults = int(
         request.form["adults"]
@@ -57,10 +59,12 @@ def generate():
     )
 
 
+
     # Budget
     budget = float(
         request.form["budget"]
     )
+
 
 
     # Preferences
@@ -77,34 +81,58 @@ def generate():
     trip_goal = request.form["trip_goal"]
 
 
-    # Convert interests list to JSON text
+
+    # Convert interests list to JSON
     interests_json = json.dumps(interests)
+
+
+
+    # Generate destination image
+    image_url = get_destination_image(
+        destination
+    )
 
 
 
     # AI response
     trip_plan = generate_trip_plan(
+
         origin=origin,
+
         destination=destination,
+
         start_date=start_date.strftime("%Y-%m-%d"),
+
         end_date=end_date.strftime("%Y-%m-%d"),
+
         days=days,
+
         adults=adults,
+
         children=children,
+
         budget=budget,
+
         transportation=transportation,
+
         accommodation=accommodation,
+
         interests=interests,
+
         trip_goal=trip_goal
+
     )
 
 
-    # Save trip to database
+
+    # Save trip
     new_trip = Trip(
 
         origin=origin,
 
         destination=destination,
+
+        image_url=image_url,
 
         start_date=start_date,
 
@@ -131,6 +159,7 @@ def generate():
     )
 
 
+
     db.session.add(new_trip)
 
     db.session.commit()
@@ -138,6 +167,7 @@ def generate():
 
 
     return render_template(
+
         "trip_result.html",
 
         origin=origin,
@@ -165,4 +195,5 @@ def generate():
         trip_goal=trip_goal,
 
         trip_plan=trip_plan
+
     )

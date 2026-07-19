@@ -21,6 +21,11 @@ class Trip(db.Model):
         nullable=False
     )
 
+    image_url = db.Column(
+        db.String(500),
+        nullable=True
+    )
+
     # Trip Dates
     start_date = db.Column(
         db.Date,

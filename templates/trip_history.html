@@ -23,53 +23,173 @@
 
     {% for trip in trips %}
 
-        <div class="trip-card">
+        <div class="history-container">
 
-            <h2>🏔 {{ trip.destination }}</h2>
 
-            <p>
-                <strong>📍 Route:</strong>
-                {{ trip.origin }} → {{ trip.destination }}
-            </p>
+            <h1>My Trips ✈️</h1>
 
-            <p>
-                <strong>📅 Dates:</strong>
-                {{ trip.start_date.strftime("%b %d, %Y") }}
-                -
-                {{ trip.end_date.strftime("%b %d, %Y") }}
-            </p>
 
-            <p>
-                <strong>👨‍👩‍👧 Travelers:</strong>
-                {{ trip.adults }} Adults
-                {% if trip.children > 0 %}
-                    + {{ trip.children }} Children
-                {% endif %}
-            </p>
+            {% if trips %}
 
-            <p>
-                <strong>💰 Budget:</strong>
-                ${{ "%.0f"|format(trip.budget) }}
-            </p>
 
-            <div class="trip-buttons">
+                {% for trip in trips %}
 
-                <a href="{{ url_for('history.view_trip', trip_id=trip.id) }}">
-                    <button class="main-button">
-                        View Trip
-                    </button>
-                </a>
 
-                <a href="{{ url_for('history.delete_trip', trip_id=trip.id) }}"
-                onclick="return confirm('Are you sure you want to delete this trip?');">
+                <div class="trip-dashboard-card">
 
-                    <button class="delete-button">
-                        Delete
-                    </button>
+                    {% if trip.image_url %}
 
-                </a>
+                    <img 
+                        src="{{ trip.image_url }}"
+                        class="trip-image"
+                    >
 
-            </div>
+                    {% endif %}
+
+
+                    <div class="trip-header">
+
+
+                        <h2>
+                            🏔 {{ trip.destination }}
+                        </h2>
+
+
+                        <span class="budget-tag">
+
+                            ${{ "%.0f"|format(trip.budget) }}
+
+                        </span>
+
+
+                    </div>
+
+
+
+                    <div class="trip-details">
+
+
+                        <p>
+                            📍
+                            {{ trip.origin }}
+                            →
+                            {{ trip.destination }}
+                        </p>
+
+
+                        <p>
+                            📅
+                            {{ trip.start_date.strftime("%b %d, %Y") }}
+
+                            -
+
+                            {{ trip.end_date.strftime("%b %d, %Y") }}
+                        </p>
+
+
+                        <p>
+
+                            👨‍👩‍👧
+
+                            {{ trip.adults }} Adults
+
+                            {% if trip.children > 0 %}
+
+                                + {{ trip.children }} Children
+
+                            {% endif %}
+
+                        </p>
+
+
+                        <p>
+
+                            🚗 {{ trip.transportation }}
+
+                        </p>
+
+
+                        <p>
+
+                            🏨 {{ trip.accommodation }}
+
+                        </p>
+
+
+                    </div>
+
+
+
+                    <div class="trip-actions">
+
+
+                        <a href="{{ url_for('history.view_trip', trip_id=trip.id) }}">
+
+                            <button class="main-button">
+
+                                View Trip
+
+                            </button>
+
+                        </a>
+
+
+
+                        <a href="{{ url_for('history.delete_trip', trip_id=trip.id) }}"
+                        onclick="return confirm('Delete this trip?');">
+
+
+                            <button class="delete-button">
+
+                                Delete
+
+                            </button>
+
+
+                        </a>
+
+
+                    </div>
+
+
+                </div>
+
+
+                {% endfor %}
+
+
+
+            {% else %}
+
+
+                <div class="empty-card">
+
+                    <h2>
+                        No trips yet 🌎
+                    </h2>
+
+
+                    <p>
+                        Create your first AI-powered travel plan!
+                    </p>
+
+
+                    <a href="/planner">
+
+                        <button class="main-button">
+
+                            Create Trip
+
+                        </button>
+
+                    </a>
+
+
+                </div>
+
+
+            {% endif %}
+
 
         </div>
 
