@@ -17,6 +17,39 @@
 
     <h2>TravelMind AI 🌎</h2>
 
+    <div>
+        {% if logged_in %}
+
+        <span class="welcome-user">
+
+            👋 {{ username }}
+
+        </span>
+
+        <a href="/trips">
+            <button>My Trips</button>
+        </a>
+
+        <a href="/logout">
+            <button class="logout-button">
+                Logout
+            </button>
+        </a>
+
+        {% else %}
+
+        <a href="/register">
+            <button>Register</button>
+        </a>
+
+        <a href="/login">
+            <button>Login</button>
+        </a>
+
+        {% endif %}
+
+    </div>
+
 </nav>
 
 {% set origin = trip.origin %}

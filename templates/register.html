@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Register | TravelMind AI</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/style.css') }}">
+
+</head>
+
+<body>
+
+    <nav>
+
+        <h2>🌍 TravelMind AI</h2>
+
+        <div>
+            {% if logged_in %}
+
+            <span class="welcome-user">
+
+                👋 {{ username }}
+
+            </span>
+
+            <a href="/trips">
+                <button>My Trips</button>
+            </a>
+
+            <a href="/logout">
+                <button class="logout-button">
+                    Logout
+                </button>
+            </a>
+
+            {% else %}
+
+            <a href="/register">
+                <button>Register</button>
+            </a>
+
+            <a href="/login">
+                <button>Login</button>
+            </a>
+
+            {% endif %}
+
+        </div>
+
+    </nav>
+
+    <div class="auth-container">
+
+        <div class="auth-card">
+
+            <h1>Create Account</h1>
+
+            <p class="auth-subtitle">
+                Join TravelMind AI and start planning unforgettable trips.
+            </p>
+
+            <form action="/register" method="POST">
+
+                <label>Username</label>
+
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Enter your username"
+                    required
+                >
+
+                <label>Email</label>
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+                <label>Password</label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Create a password"
+                    required
+                >
+
+                <label>Confirm Password</label>
+
+                <input
+                    type="password"
+                    name="confirm_password"
+                    placeholder="Confirm your password"
+                    required
+                >
+
+                <button
+                    type="submit"
+                    class="auth-button"
+                >
+                    Create Account
+                </button>
+
+            </form>
+
+            <p class="auth-footer">
+
+                Already have an account?
+
+                <a href="/login">
+
+                    Login here
+
+                </a>
+
+            </p>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
