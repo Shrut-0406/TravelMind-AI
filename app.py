@@ -1,5 +1,6 @@
 from flask import Flask
 from dotenv import load_dotenv
+from routes.history import history
 
 load_dotenv()
 
@@ -25,6 +26,7 @@ def create_app():
 
     app.register_blueprint(main)
     app.register_blueprint(planner)
+    app.register_blueprint(history)
 
 
     with app.app_context():

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>{{ trip.destination }} Trip</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<nav>
+
+    <h2>TravelMind AI 🌎</h2>
+
+</nav>
+
+{% set origin = trip.origin %}
+{% set destination = trip.destination %}
+{% set days = trip.days %}
+{% set adults = trip.adults %}
+{% set children = trip.children %}
+{% set budget = trip.budget %}
+{% set trip_plan = trip.trip_plan %}
+
+{% include "_trip_details.html" %}
+
+</body>
+
+</html>

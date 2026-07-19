@@ -82,6 +82,23 @@ def generate():
 
 
 
+    # AI response
+    trip_plan = generate_trip_plan(
+        origin=origin,
+        destination=destination,
+        start_date=start_date.strftime("%Y-%m-%d"),
+        end_date=end_date.strftime("%Y-%m-%d"),
+        days=days,
+        adults=adults,
+        children=children,
+        budget=budget,
+        transportation=transportation,
+        accommodation=accommodation,
+        interests=interests,
+        trip_goal=trip_goal
+    )
+
+
     # Save trip to database
     new_trip = Trip(
 
@@ -107,31 +124,16 @@ def generate():
 
         interests=interests_json,
 
-        trip_goal=trip_goal
+        trip_goal=trip_goal,
+
+        trip_plan=trip_plan
+
     )
 
 
     db.session.add(new_trip)
 
     db.session.commit()
-
-
-
-    # AI response
-    trip_plan = generate_trip_plan(
-        origin=origin,
-        destination=destination,
-        start_date=start_date.strftime("%Y-%m-%d"),
-        end_date=end_date.strftime("%Y-%m-%d"),
-        days=days,
-        adults=adults,
-        children=children,
-        budget=budget,
-        transportation=transportation,
-        accommodation=accommodation,
-        interests=interests,
-        trip_goal=trip_goal
-    )
 
 
 

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>My Trips</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<nav>
+
+    <h2>TravelMind AI 🌎</h2>
+
+</nav>
+
+{% if trips %}
+
+    {% for trip in trips %}
+
+        <div class="trip-card">
+
+            <h2>🏔 {{ trip.destination }}</h2>
+
+            <p>
+                <strong>📍 Route:</strong>
+                {{ trip.origin }} → {{ trip.destination }}
+            </p>
+
+            <p>
+                <strong>📅 Dates:</strong>
+                {{ trip.start_date.strftime("%b %d, %Y") }}
+                -
+                {{ trip.end_date.strftime("%b %d, %Y") }}
+            </p>
+
+            <p>
+                <strong>👨‍👩‍👧 Travelers:</strong>
+                {{ trip.adults }} Adults
+                {% if trip.children > 0 %}
+                    + {{ trip.children }} Children
+                {% endif %}
+            </p>
+
+            <p>
+                <strong>💰 Budget:</strong>
+                ${{ "%.0f"|format(trip.budget) }}
+            </p>
+
+            <div class="trip-buttons">
+
+                <a href="{{ url_for('history.view_trip', trip_id=trip.id) }}">
+                    <button class="main-button">
+                        View Trip
+                    </button>
+                </a>
+
+                <a href="{{ url_for('history.delete_trip', trip_id=trip.id) }}"
+                onclick="return confirm('Are you sure you want to delete this trip?');">
+
+                    <button class="delete-button">
+                        Delete
+                    </button>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <h2>No trips yet.</h2>
+
+{% endif %}
+
+</body>
+
+</html>

@@ -1,0 +1,98 @@
+<div class="result-container">
+
+    <h1>{{ destination }} Adventure ✈️</h1>
+
+    <div class="trip-info">
+
+        <div class="info-card">
+            <h3>📍 Route</h3>
+            <p>{{ origin }} → {{ destination }}</p>
+        </div>
+
+        <div class="info-card">
+            <h3>📅 Duration</h3>
+            <p>{{ days }} Days</p>
+        </div>
+
+        <div class="info-card">
+            <h3>👨‍👩‍👧 Travelers</h3>
+
+            <p>
+                {{ adults }} Adults
+
+                {% if children > 0 %}
+                    + {{ children }} Children
+                {% endif %}
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="summary-card">
+
+        <h2>📝 Trip Summary</h2>
+
+        <p>{{ trip_plan.summary }}</p>
+
+    </div>
+
+    <div class="budget-card">
+
+        <h2>💰 Budget Breakdown</h2>
+
+        <p>🏨 Accommodation: ${{ trip_plan.budget.accommodation }}</p>
+
+        <p>🍔 Food: ${{ trip_plan.budget.food }}</p>
+
+        <p>🚗 Transportation: ${{ trip_plan.budget.transportation }}</p>
+
+        <p>🎟 Activities: ${{ trip_plan.budget.activities }}</p>
+
+        <hr>
+
+        <h3>Total: ${{ trip_plan.budget.total }}</h3>
+
+    </div>
+
+    <h2 class="section-title">
+        📅 Daily Itinerary
+    </h2>
+
+    {% for day in trip_plan.days %}
+
+    <div class="day-card">
+
+        <h2>
+            Day {{ loop.index }} - {{ day.date }}
+        </h2>
+
+        <div class="activity">
+
+            <h3>🌅 Morning</h3>
+
+            <p>{{ day.morning }}</p>
+
+        </div>
+
+        <div class="activity">
+
+            <h3>☀ Afternoon</h3>
+
+            <p>{{ day.afternoon }}</p>
+
+        </div>
+
+        <div class="activity">
+
+            <h3>🌙 Evening</h3>
+
+            <p>{{ day.evening }}</p>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>

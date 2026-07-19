@@ -75,6 +75,12 @@ class Trip(db.Model):
         nullable=False
     )
 
+    # AI Generated Trip
+    trip_plan = db.Column(
+        db.JSON,
+        nullable=True
+    )
+
     # Metadata
     created_at = db.Column(
         db.DateTime,

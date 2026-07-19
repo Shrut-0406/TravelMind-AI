@@ -1,4 +1,5 @@
 import os
+import json
 
 from dotenv import load_dotenv
 from groq import Groq
@@ -133,23 +134,40 @@ def generate_trip_plan(
 
         Output format:
 
-        Trip Summary:
-        (short summary)
+        Return ONLY valid JSON.
 
-        Budget Estimate:
-        (accommodation, food, transportation, activities)
+        Do not include markdown.
+        Do not include ```.
 
-        Day 1 - Date:
-        Morning:
-        Afternoon:
-        Evening:
+        Use this exact structure:
 
-        Day 2 - Date:
-        Morning:
-        Afternoon:
-        Evening:
+        {{
+            "summary": "short trip summary",
 
-        Continue until the final day.
+            "budget": {{
+                "accommodation": number,
+                "food": number,
+                "transportation": number,
+                "activities": number,
+                "total": number
+            }},
+
+            "days": [
+                {{
+                    "date": "YYYY-MM-DD",
+                    "morning": "activity description",
+                    "afternoon": "activity description",
+                    "evening": "activity description"
+                }}
+            ]
+        }}
+
+        Rules:
+
+        - The number of days must match the trip duration.
+        - Budget values must be numbers only.
+        - Total must equal the sum of budget categories.
+        - Dates must match the travel dates.
 
         """
 
@@ -172,11 +190,15 @@ def generate_trip_plan(
 
         ],
 
-        temperature=0.7,
+        temperature=0.4,
 
         max_tokens=3000
 
     )
 
 
-    return response.choices[0].message.content
+    ai_text = response.choices[0].message.content
+
+    trip_data = json.loads(ai_text)
+
+    return trip_data
