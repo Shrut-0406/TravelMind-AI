@@ -757,3 +757,109 @@ label {
     }
 
 }
+
+
+
+
+
+/* Account Dashboard */
+
+.account-container {
+
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+
+}
+
+
+.account-card {
+
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+
+}
+
+
+
+.trip-grid {
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap: 20px;
+
+}
+
+
+
+.trip-card {
+
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f8f8f8;
+    padding-bottom: 15px;
+
+}
+
+
+
+.trip-card img {
+
+    width:100%;
+    height:160px;
+    object-fit:cover;
+
+}
+
+
+
+.trip-card h3,
+.trip-card p,
+.trip-card a {
+
+    margin-left:15px;
+
+}
+
+
+
+.trip-card a {
+
+    text-decoration:none;
+    color:#007bff;
+
+}
+
+
+
+.account-buttons {
+
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+
+}
+
+
+
+.account-buttons a {
+
+    padding:12px 25px;
+    background:#2563eb;
+    color:white;
+
+    border-radius:8px;
+    text-decoration:none;
+
+}
+
+
+.account-buttons a:hover {
+
+    opacity:0.85;
+
+}

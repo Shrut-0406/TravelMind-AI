@@ -22,30 +22,26 @@
         <div>
             {% if logged_in %}
 
-            <span class="welcome-user">
+            <span class="welcome-user" style="margin-right: 15px;">
 
                 👋 {{ username }}
 
             </span>
 
-            <a href="/trips">
-                <button>My Trips</button>
-            </a>
-
-            <a href="/logout">
+            <a href="{{ url_for('account.account_page') }}">
                 <button class="logout-button">
-                    Logout
+                    👤 Account
                 </button>
             </a>
 
             {% else %}
 
             <a href="/register">
-                <button>Register</button>
+                <button class="logout-button">Register</button>
             </a>
 
             <a href="/login">
-                <button>Login</button>
+                <button class="logout-button">Login</button>
             </a>
 
             {% endif %}

@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_login import login_user
+from flask_login import logout_user
 
 from database.database import db
 from database.models import User
@@ -104,3 +105,12 @@ def login():
     return redirect(
         url_for("planner.planner_page")
     )
+
+
+
+@auth.route("/logout")
+def logout():
+
+    logout_user()
+
+    return redirect(url_for("main.home"))

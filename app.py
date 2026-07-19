@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, app
 from flask_login import LoginManager, current_user
 from dotenv import load_dotenv
 
@@ -57,6 +57,7 @@ def create_app():
     from routes.planner import planner
     from routes.history import history
     from routes.auth import auth
+    from routes.account import account
 
 
     app.register_blueprint(main)
@@ -66,6 +67,8 @@ def create_app():
     app.register_blueprint(history)
 
     app.register_blueprint(auth)
+    
+    app.register_blueprint(account)
 
 
 

@@ -18,37 +18,33 @@
     <h2>TravelMind AI 🌎</h2>
 
     <div>
-            {% if logged_in %}
+        {% if logged_in %}
 
-            <span class="welcome-user">
+        <span class="welcome-user" style="margin-right: 15px;">
 
-                👋 {{ username }}
+            👋 {{ username }}
 
-            </span>
+        </span>
 
-            <a href="/trips">
-                <button>My Trips</button>
-            </a>
+        <a href="{{ url_for('account.account_page') }}">
+            <button class="logout-button">
+                👤 Account
+            </button>
+        </a>
 
-            <a href="/logout">
-                <button class="logout-button">
-                    Logout
-                </button>
-            </a>
+        {% else %}
 
-            {% else %}
+        <a href="/register">
+            <button class="logout-button">Register</button>
+        </a>
 
-            <a href="/register">
-                <button>Register</button>
-            </a>
+        <a href="/login">
+            <button class="logout-button">Login</button>
+        </a>
 
-            <a href="/login">
-                <button>Login</button>
-            </a>
+        {% endif %}
 
-            {% endif %}
-
-        </div>
+    </div>
 
 </nav>
 
