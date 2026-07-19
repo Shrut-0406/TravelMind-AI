@@ -15,7 +15,11 @@
 
 <nav>
 
-    <h2>TravelMind AI 🌎</h2>
+    <a href="{{ url_for('main.home') }}" style="text-decoration: none; color: #000;">
+        <h2>
+            TravelMind AI
+        </h2>
+    </a>
 
     <div>
             {% if logged_in %}

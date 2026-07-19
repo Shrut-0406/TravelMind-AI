@@ -15,11 +15,21 @@ def account_page():
         Trip.query
         .filter_by(user_id=current_user.id)
         .order_by(Trip.created_at.desc())
+        .limit(5)
         .all()
+    )
+
+
+    trip_count = (
+        Trip.query
+        .filter_by(user_id=current_user.id)
+        .count()
     )
 
 
     return render_template(
         "account.html",
-        trips=user_trips
+        user=current_user,
+        trips=user_trips,
+        trip_count=trip_count
     )

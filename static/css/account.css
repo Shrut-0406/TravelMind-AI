@@ -1,0 +1,142 @@
+body {
+
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+
+}
+
+
+.account-container {
+
+    width: 85%;
+    margin: 40px auto;
+
+}
+
+
+
+.profile-card {
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:15px;
+
+    box-shadow:0 5px 20px rgba(0,0,0,0.1);
+
+    margin-bottom:30px;
+
+}
+
+
+
+.profile-card h1 {
+
+    margin-top:0;
+
+}
+
+
+
+.logout-btn {
+
+    display:inline-block;
+
+    margin-top:20px;
+
+    padding:12px 25px;
+
+    background:#e74c3c;
+
+    color:white;
+
+    text-decoration:none;
+
+    border-radius:8px;
+
+}
+
+
+
+.logout-btn:hover {
+
+    background:#c0392b;
+
+}
+
+
+
+.trips-section h2 {
+
+    margin-bottom:20px;
+
+}
+
+
+
+.trip-card {
+
+
+    display:flex;
+
+    gap:20px;
+
+    background:white;
+
+    padding:20px;
+
+    margin-bottom:20px;
+
+    border-radius:15px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+
+
+}
+
+
+
+.trip-card img {
+
+    width:180px;
+
+    height:120px;
+
+    object-fit:cover;
+
+    border-radius:10px;
+
+}
+
+
+
+.trip-card a {
+
+    color:#3498db;
+
+    text-decoration:none;
+
+}
+
+
+.trip-card a:hover {
+
+    text-decoration:underline;
+
+}
+
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+}
+
+button {
+    padding: 12px 25px;
+    border: none;
+    cursor: pointer;
+}
+
