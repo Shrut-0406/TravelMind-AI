@@ -3,52 +3,49 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
 
+from flask_login import UserMixin
+
+
 class User(db.Model, UserMixin):
 
     __tablename__ = "users"
+
 
     id = db.Column(
         db.Integer,
         primary_key=True
     )
 
+
     username = db.Column(
-        db.String(50),
-        unique=True,
-        nullable=False
+        db.String(100),
+        nullable=False,
+        unique=True
     )
+
 
     email = db.Column(
         db.String(120),
-        unique=True,
-        nullable=False
+        nullable=False,
+        unique=True
     )
 
-    password_hash = db.Column(
+
+    password = db.Column(
         db.String(255),
         nullable=False
     )
 
-    created_at = db.Column(
-        db.DateTime,
-        server_default=db.func.now()
-    )
-
-
-    trips = db.relationship(
-        "Trip",
-        backref="user",
-        lazy=True
-    )
-
 
     def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
+
+        self.password = generate_password_hash(password)
 
 
     def check_password(self, password):
+
         return check_password_hash(
-            self.password_hash,
+            self.password,
             password
         )
 
@@ -63,10 +60,10 @@ class Trip(db.Model):
     )
 
     user_id = db.Column(
-        db.Integer,
-        db.ForeignKey("users.id"),
-        nullable=False
-    )
+    db.Integer,
+    db.ForeignKey("users.id"),
+    nullable=False
+)
 
     # Trip Locations
     origin = db.Column(

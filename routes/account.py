@@ -4,32 +4,39 @@ from flask_login import login_required, current_user
 from database.models import Trip
 
 
-account = Blueprint("account", __name__)
+account = Blueprint(
+    "account",
+    __name__
+)
 
 
 @account.route("/account")
 @login_required
 def account_page():
 
-    user_trips = (
+    # Get only current user's trips
+    trips = (
         Trip.query
         .filter_by(user_id=current_user.id)
         .order_by(Trip.created_at.desc())
-        .limit(5)
         .all()
     )
 
 
-    trip_count = (
-        Trip.query
-        .filter_by(user_id=current_user.id)
-        .count()
+    # Statistics
+    total_trips = len(trips)
+
+    total_budget = sum(
+        trip.budget for trip in trips
     )
 
 
     return render_template(
         "account.html",
-        user=current_user,
-        trips=user_trips,
-        trip_count=trip_count
+
+        trips=trips,
+
+        total_trips=total_trips,
+
+        total_budget=total_budget
     )
