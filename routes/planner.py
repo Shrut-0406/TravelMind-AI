@@ -5,6 +5,7 @@ from flask_login import login_required, current_user
 
 from services.ai_service import generate_trip_plan
 from services.image_service import get_destination_image
+from services.budget_service import analyze_budget
 
 
 from database.database import db
@@ -128,6 +129,10 @@ def generate():
         "trip_goal"
     ]
 
+    traveler_type = request.form[
+        "traveler_type"
+        ]
+
 
 
 
@@ -146,6 +151,23 @@ def generate():
     )
 
 
+
+    # Budget Analysis
+    budget_analysis = analyze_budget(
+
+        budget=budget,
+
+        adults=adults,
+
+        children=children,
+
+        days=days,
+
+        transportation=transportation,
+
+        accommodation=accommodation
+
+    )
 
 
 
@@ -191,7 +213,11 @@ def generate():
         interests=interests,
 
 
-        trip_goal=trip_goal
+        trip_goal=trip_goal,
+
+        budget_analysis=budget_analysis,
+
+        traveler_type=traveler_type,
 
     )
 

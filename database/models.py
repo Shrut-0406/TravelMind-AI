@@ -76,6 +76,11 @@ class Trip(db.Model):
         nullable=False
     )
 
+    traveler_type = db.Column(
+        db.String(50),
+        nullable=True
+    )
+
     image_url = db.Column(
         db.String(500),
         nullable=True

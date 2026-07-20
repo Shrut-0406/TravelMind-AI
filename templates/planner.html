@@ -69,21 +69,11 @@
                     <h2>📍 Trip Information</h2>
 
                     <label>Origin</label>
-                    <input 
-                        type="text"
-                        name="origin"
-                        placeholder="Example: Regina"
-                        required
-                    >
+                    <input type="text" name="origin" placeholder="Example: Regina" required> <br>
 
 
                     <label>Destination</label>
-                    <input 
-                        type="text"
-                        name="destination"
-                        placeholder="Example: Vancouver"
-                        required
-                    >
+                    <input type="text" name="destination" placeholder="Example: Vancouver" required>
 
 
                     <div class="date-grid">
@@ -91,22 +81,14 @@
                         <div>
                             <label>Start Date</label>
 
-                            <input
-                                type="date"
-                                name="start_date"
-                                required
-                            >
+                            <input type="date" name="start_date" required>
                         </div>
 
 
                         <div>
                             <label>End Date</label>
 
-                            <input
-                                type="date"
-                                name="end_date"
-                                required
-                            >
+                            <input type="date" name="end_date" required>
                         </div>
 
                     </div>
@@ -127,13 +109,7 @@
 
                             <label>Adults</label>
 
-                            <input
-                                type="number"
-                                name="adults"
-                                value="1"
-                                min="1"
-                                required
-                            >
+                            <input type="number" name="adults" value="1" min="1" required>
 
                         </div>
 
@@ -142,15 +118,37 @@
 
                             <label>Children</label>
 
-                            <input
-                                type="number"
-                                name="children"
-                                value="0"
-                                min="0"
-                                required
-                            >
+                            <input type="number" name="children" value="0" min="0" required>
 
                         </div>
+
+                        <label>
+                            Traveler Type
+                        </label>
+
+                        <select name="traveler_type">
+
+                            <option value="Family">
+                                Family
+                            </option>
+
+                            <option value="Couple">
+                                Couple
+                            </option>
+
+                            <option value="Solo">
+                                Solo
+                            </option>
+
+                            <option value="Friends">
+                                Friends
+                            </option>
+
+                            <option value="Business">
+                                Business
+                            </option>
+
+                        </select>
 
                     </div>
 
@@ -168,12 +166,7 @@
 
                     <label>Total Budget ($)</label>
 
-                    <input
-                        type="number"
-                        name="budget"
-                        placeholder="2500"
-                        required
-                    >
+                    <input type="number" name="budget" placeholder="2500" required>
 
 
                 </div>
@@ -268,28 +261,24 @@
 
 
                         {% for interest in [
-                            "Nature",
-                            "Hiking",
-                            "Photography",
-                            "Food",
-                            "Shopping",
-                            "Museums",
-                            "Scenic Drives",
-                            "Wildlife",
-                            "Adventure",
-                            "History",
-                            "Relaxation",
-                            "Nightlife"
+                        "Nature",
+                        "Hiking",
+                        "Photography",
+                        "Food",
+                        "Shopping",
+                        "Museums",
+                        "Scenic Drives",
+                        "Wildlife",
+                        "Adventure",
+                        "History",
+                        "Relaxation",
+                        "Nightlife"
                         ] %}
 
 
                         <label class="checkbox-item">
 
-                            <input
-                                type="checkbox"
-                                name="interests"
-                                value="{{interest}}"
-                            >
+                            <input type="checkbox" name="interests" value="{{interest}}">
 
                             {{interest}}
 

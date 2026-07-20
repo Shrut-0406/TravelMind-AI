@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from flask_login import login_user
 from flask_login import logout_user
 
@@ -26,7 +26,8 @@ def register():
 
     if password != confirm_password:
 
-        return "Passwords do not match."
+        flash("Passwords do not match..", "error")
+        return redirect(url_for("account.edit_profile"))
 
 
     existing_username = User.query.filter_by(
@@ -35,7 +36,8 @@ def register():
 
     if existing_username:
 
-        return "Username already exists."
+        flash("Username already exists.", "error")
+        return redirect(url_for("account.edit_profile"))
 
 
     existing_email = User.query.filter_by(
@@ -44,7 +46,8 @@ def register():
 
     if existing_email:
 
-        return "Email already registered."
+        flash("Email already registered.", "error")
+        return redirect(url_for("account.edit_profile"))
 
 
     user = User(
@@ -87,12 +90,14 @@ def login():
 
     if not user:
 
-        return "Invalid email or password."
+        flash("Invalid email or password.", "error")
+        return redirect(url_for("account.edit_profile"))
 
 
     if not user.check_password(password):
 
-        return "Invalid email or password."
+        flash("Invalid email or password.", "error")
+        return redirect(url_for("account.edit_profile"))
 
 
     login_user(user)

@@ -3,14 +3,28 @@
 
 <head>
 
-<title>My Account - TravelMind AI</title>
+    <title>My Account - TravelMind AI</title>
 
-<link rel="stylesheet" href="{{ url_for('static', filename='../static/css/account.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/account.css') }}">
 
 </head>
 
 
 <body>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+
+    {% for category, message in messages %}
+
+    <div class="{{ category }}">
+        {{ message }}
+    </div>
+
+    {% endfor %}
+
+    {% endif %}
+    {% endwith %}
 
     <nav>
         <a href="{{ url_for('main.home') }}" style="text-decoration: none; color: #000;">
@@ -49,38 +63,49 @@
         </div>
     </nav>
 
-<div class="account-container">
+    <div class="account-container">
 
 
-    <div class="profile-card">
+        <div class="profile-card">
 
-        <h1>👋 Welcome, {{ user.username }}</h1>
+            <h1>👋 Welcome, {{ current_user.username }}</h1>
 
-        <p>Email: {{ user.email }}</p>
+            <p>Email: {{ current_user.email }}</p>
 
-        <p>
-            Trips Created:
-            <strong>{{ trip_count }}</strong>
-        </p>
+            <p>
+                Trips Created:
+                <strong>{{ trip_count }}</strong>
+            </p>
+
+            <div class="account-actions">
+                <a href="{{ url_for('account.edit_profile') }}" class="primary-btn">
+                    <button>✏️ Edit Profile </button>
+                </a>
+
+                <a href="{{ url_for('auth.logout') }}" class="logout-btn">
+                    Logout
+                </a>
+
+                <form action="{{ url_for('account.delete_account') }}" method="POST"
+                    onsubmit="return confirm('Delete your account permanently? This cannot be undone.')">
+                    <button class="logout-btn">
+                        🗑️ Delete Account
+                    </button>
+                </form>
+            </div>
 
 
-        <a class="logout-btn"
-           href="{{ url_for('auth.logout') }}">
-            Logout
-        </a>
-
-
-    </div>
+        </div>
 
 
 
-    <div class="trips-section">
+        <div class="trips-section">
 
 
-        <h2>Recent Trips</h2>
+            <h2>Recent Trips</h2>
 
 
-        {% if trips %}
+            {% if trips %}
 
 
             {% for trip in trips %}
@@ -125,19 +150,19 @@
             {% endfor %}
 
 
-        {% else %}
+            {% else %}
 
             <p>
                 You have not created any trips yet.
             </p>
 
-        {% endif %}
+            {% endif %}
+
+
+        </div>
 
 
     </div>
-
-
-</div>
 
 
 </body>

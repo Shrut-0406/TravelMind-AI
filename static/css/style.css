@@ -378,7 +378,8 @@ label {
 
 .summary-card,
 .budget-card,
-.day-card {
+.day-card,
+.trip-section {
 
     background: white;
 
@@ -863,3 +864,37 @@ label {
     opacity:0.85;
 
 }
+
+
+
+
+
+/* Flash Messages */
+.success{
+
+    background:#d4edda;
+
+    color:#155724;
+
+    padding:12px;
+
+    border-radius:8px;
+
+    margin-bottom:20px;
+}
+
+.error{
+
+    background:#f8d7da;
+
+    color:#721c24;
+
+    padding:12px;
+
+    border-radius:8px;
+
+    margin-bottom:20px;
+}
+
+
+

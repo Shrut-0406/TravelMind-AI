@@ -41,11 +41,7 @@ body {
 
 .logout-btn {
 
-    display:inline-block;
-
-    margin-top:20px;
-
-    padding:12px 25px;
+    padding:12px;
 
     background:#e74c3c;
 
@@ -54,6 +50,10 @@ body {
     text-decoration:none;
 
     border-radius:8px;
+
+    width:fit-content;
+
+    height:fit-content;
 
 }
 
@@ -140,3 +140,35 @@ button {
     cursor: pointer;
 }
 
+
+
+
+/* Flash Messages */
+.success{
+
+    background:#d4edda;
+
+    color:#155724;
+
+    padding:12px;
+
+    border-radius:8px;
+
+    margin-bottom:20px;
+}
+
+.error{
+    background:#f8d7da;
+    color:#721c24;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:20px;
+}
+
+
+.account-actions{
+    width:fit-content;
+    display:grid;
+    grid-template-columns: auto auto auto;
+    gap:20px;
+}

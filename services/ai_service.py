@@ -26,7 +26,9 @@ def generate_trip_plan(
     transportation,
     accommodation,
     interests,
-    trip_goal
+    trip_goal,
+    budget_analysis,
+    traveler_type,
 ):
 
 
@@ -83,6 +85,27 @@ def generate_trip_plan(
         Trip goal:
         {trip_goal}
 
+        Traveler type:
+        {traveler_type}
+
+        Budget Analysis:
+
+            Estimated realistic costs:
+
+            {budget_analysis}
+
+
+            IMPORTANT:
+
+            Use this analysis when creating the budget.
+
+            Do not exceed the user's budget.
+
+            If the budget is low:
+            - suggest cheaper activities
+            - avoid luxury accommodation
+            - prioritize free attractions
+
 
 
         Instructions:
@@ -124,6 +147,51 @@ def generate_trip_plan(
 
         16. Respect the user's accommodation preference.
 
+        17. Provide weather-related advice based on the destination and travel dates.
+
+        18. Create a practical packing checklist based on:
+            - destination
+            - season
+            - activities
+            - weather
+            - keep in mind the number of travelers, trip duration, if they are staying at hotel they probably need lesser clothes than camping, you could also provide them a range (e.g., 5-10 shirts and pants, 1-3 hoodies) and give them number of clothes to pack for entire trip (ex. 5 shirts for a 7-day trip for 2 people).
+
+        19. Recommend realistic local foods or dishes.
+
+        20. Include important safety considerations.
+
+        21. Include useful travel tips that improve the experience.
+
+        22. Adapt activities based on traveler type.
+
+            Examples:
+
+            Family:
+            - prioritize safe activities
+            - include child friendly options
+
+            Couple:
+            - include romantic experiences
+
+            Solo:
+            - include flexible activities and social opportunities
+
+            Friends:
+            - include group experiences
+
+            Business:
+            - prioritize efficiency and convenience
+
+        23. The provided Budget Analysis is the source of truth.
+
+        24. Do NOT create your own budget calculations.
+
+        25. Use the estimated costs from Budget Analysis.
+
+        26. The budget total must exactly match the provided estimated total.
+
+        27. Adjust activities and recommendations based on the available budget.
+
 
         IMPORTANT:
             Return only the itinerary content.
@@ -139,6 +207,7 @@ def generate_trip_plan(
         Do not include markdown.
         Do not include ```.
 
+        
         Use this exact structure:
 
         {{
@@ -149,8 +218,34 @@ def generate_trip_plan(
                 "food": number,
                 "transportation": number,
                 "activities": number,
-                "total": number
+                "total": number,
+                "per_person": number
             }},
+
+            "weather_tips": [
+                "weather advice item 1",
+                "weather advice item 2"
+            ],
+
+            "packing_list": [
+                "packing item 1",
+                "packing item 2"
+            ],
+
+            "local_food": [
+                "recommended food item 1",
+                "recommended food item 2"
+            ],
+
+            "safety_tips": [
+                "safety advice item 1",
+                "safety advice item 2"
+            ],
+
+            "travel_tips": [
+                "general travel advice item 1",
+                "general travel advice item 2"
+            ],
 
             "days": [
                 {{
@@ -190,15 +285,34 @@ def generate_trip_plan(
 
         ],
 
-        temperature=0.4,
+        temperature=0.2,
 
-        max_tokens=3000
+        max_tokens=5000
 
     )
 
 
     ai_text = response.choices[0].message.content
 
-    trip_data = json.loads(ai_text)
+    # Remove markdown code blocks if AI adds them
+    ai_text = ai_text.replace("```json", "")
+    ai_text = ai_text.replace("```", "")
+
+    ai_text = ai_text.strip()
+
+
+    try:
+
+        trip_data = json.loads(ai_text)
+
+    except json.JSONDecodeError:
+
+        print("AI JSON ERROR:")
+        print(ai_text)
+
+        raise Exception(
+            "AI returned invalid JSON format"
+        )
+
 
     return trip_data

@@ -21,7 +21,7 @@
                 {{ adults }} Adults
 
                 {% if children > 0 %}
-                    + {{ children }} Children
+                + {{ children }} Children
                 {% endif %}
             </p>
 
@@ -54,6 +54,116 @@
         <h3>Total: ${{ trip_plan.budget.total }}</h3>
 
     </div>
+
+    <!-- Weather Tips -->
+
+    {% if trip_plan.weather_tips %}
+
+    <section class="trip-section">
+
+        <h2>🌦️ Weather Tips</h2>
+
+        <ul>
+
+            {% for tip in trip_plan.weather_tips %}
+
+            <li>{{ tip }}</li>
+
+            {% endfor %}
+
+        </ul>
+
+    </section>
+
+    {% endif %}
+
+    <!-- Packing List -->
+
+    {% if trip_plan.packing_list %}
+
+    <section class="trip-section">
+
+        <h2>🎒 Packing List</h2>
+
+        <ul>
+
+            {% for item in trip_plan.packing_list %}
+
+            <li>{{ item }}</li>
+
+            {% endfor %}
+
+        </ul>
+
+    </section>
+
+    {% endif %}
+
+    <!-- Local Food -->
+
+    {% if trip_plan.local_food %}
+
+    <section class="trip-section">
+
+        <h2>🍽️ Local Food To Try</h2>
+
+        <ul>
+
+            {% for food in trip_plan.local_food %}
+
+            <li>{{ food }}</li>
+
+            {% endfor %}
+
+        </ul>
+
+    </section>
+
+    {% endif %}
+
+    <!-- Safety Tips -->
+
+    {% if trip_plan.safety_tips %}
+
+    <section class="trip-section">
+
+        <h2>🛡️ Safety Tips</h2>
+
+        <ul>
+
+            {% for tip in trip_plan.safety_tips %}
+
+            <li>{{ tip }}</li>
+
+            {% endfor %}
+
+        </ul>
+
+    </section>
+
+    {% endif %}
+
+    <!-- Travel Tips -->
+
+    {% if trip_plan.travel_tips %}
+
+    <section class="trip-section">
+
+        <h2>🚗 Travel Tips</h2>
+
+        <ul>
+
+            {% for tip in trip_plan.travel_tips %}
+
+            <li>{{ tip }}</li>
+
+            {% endfor %}
+
+        </ul>
+
+    </section>
+
+    {% endif %}
 
     <h2 class="section-title">
         📅 Daily Itinerary
