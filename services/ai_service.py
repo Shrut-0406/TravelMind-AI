@@ -88,23 +88,24 @@ def generate_trip_plan(
         Traveler type:
         {traveler_type}
 
+
         Budget Analysis:
 
-            Estimated realistic costs:
+        Estimated realistic costs:
 
-            {budget_analysis}
+        {budget_analysis}
 
 
-            IMPORTANT:
+        IMPORTANT:
 
-            Use this analysis when creating the budget.
+        Use this analysis when creating the budget.
 
-            Do not exceed the user's budget.
+        Do not exceed the user's budget.
 
-            If the budget is low:
-            - suggest cheaper activities
-            - avoid luxury accommodation
-            - prioritize free attractions
+        If the budget is low:
+        - suggest cheaper activities
+        - avoid luxury accommodation
+        - prioritize free attractions
 
 
 
@@ -140,47 +141,24 @@ def generate_trip_plan(
 
         13. If the budget is unrealistic, explain where adjustments are needed.
 
-        14 . Do not recommend expensive options if they exceed the budget.
+        14. Do not recommend expensive options if they exceed the budget.
 
         15. Only recommend real and well-known attractions.
             Do not invent businesses, hotels, restaurants, or locations.
 
         16. Respect the user's accommodation preference.
 
-        17. Provide weather-related advice based on the destination and travel dates.
+        17. Provide weather-related advice based on destination and dates.
 
-        18. Create a practical packing checklist based on:
-            - destination
-            - season
-            - activities
-            - weather
-            - keep in mind the number of travelers, trip duration, if they are staying at hotel they probably need lesser clothes than camping, you could also provide them a range (e.g., 5-10 shirts and pants, 1-3 hoodies) and give them number of clothes to pack for entire trip (ex. 5 shirts for a 7-day trip for 2 people).
+        18. Create a practical packing checklist.
 
         19. Recommend realistic local foods or dishes.
 
         20. Include important safety considerations.
 
-        21. Include useful travel tips that improve the experience.
+        21. Include useful travel tips.
 
         22. Adapt activities based on traveler type.
-
-            Examples:
-
-            Family:
-            - prioritize safe activities
-            - include child friendly options
-
-            Couple:
-            - include romantic experiences
-
-            Solo:
-            - include flexible activities and social opportunities
-
-            Friends:
-            - include group experiences
-
-            Business:
-            - prioritize efficiency and convenience
 
         23. The provided Budget Analysis is the source of truth.
 
@@ -193,22 +171,62 @@ def generate_trip_plan(
         27. Adjust activities and recommendations based on the available budget.
 
 
+
+        MAP LOCATION REQUIREMENTS:
+
+        28. Every activity MUST include a real physical location.
+
+        29. Separate the location name from the activity description.
+
+        30. The "place" field must ONLY contain the location name.
+
+        31. The "activity" field must ONLY contain what the traveler does.
+
+        32. Never combine the location and activity together.
+
+
+        Examples:
+
+
+        Correct:
+
+        {{
+            "place": "Johnston Canyon",
+            "activity": "Hike the Lower and Upper Falls trail"
+        }}
+
+
+        Incorrect:
+
+        {{
+            "place": "Visit Johnston Canyon and hike the falls"
+        }}
+
+
         IMPORTANT:
-            Return only the itinerary content.
-            Do not include explanations about being an AI.
-            Do not create fake attractions.
-            If you are unsure about a location, suggest a popular alternative.
-        
+
+        Return only the itinerary content.
+
+        Do not include explanations about being an AI.
+
+        Do not create fake attractions.
+
+        If unsure about a location, suggest a popular alternative.
+
+
 
         Output format:
 
         Return ONLY valid JSON.
 
         Do not include markdown.
+
         Do not include ```.
 
-        
+
+
         Use this exact structure:
+
 
         {{
             "summary": "short trip summary",
@@ -223,48 +241,73 @@ def generate_trip_plan(
             }},
 
             "weather_tips": [
-                "weather advice item 1",
-                "weather advice item 2"
+                "weather advice item 1"
             ],
 
             "packing_list": [
-                "packing item 1",
-                "packing item 2"
+                "packing item 1"
             ],
 
             "local_food": [
-                "recommended food item 1",
-                "recommended food item 2"
+                "recommended food item 1"
             ],
 
             "safety_tips": [
-                "safety advice item 1",
-                "safety advice item 2"
+                "safety advice item 1"
             ],
 
             "travel_tips": [
-                "general travel advice item 1",
-                "general travel advice item 2"
+                "travel advice item 1"
             ],
 
+
             "days": [
+
                 {{
                     "date": "YYYY-MM-DD",
-                    "morning": "activity description",
-                    "afternoon": "activity description",
-                    "evening": "activity description"
+
+                    "morning": {{
+                        "place": "real location name",
+                        "activity": "activity description"
+                    }},
+
+                    "afternoon": {{
+                        "place": "real location name",
+                        "activity": "activity description"
+                    }},
+
+                    "evening": {{
+                        "place": "real location name",
+                        "activity": "activity description"
+                    }}
                 }}
+
             ]
+
         }}
+
+
 
         Rules:
 
-        - The number of days must match the trip duration.
+        - Number of days must match trip duration.
+
         - Budget values must be numbers only.
+
         - Total must equal the sum of budget categories.
-        - Dates must match the travel dates.
+
+        - Dates must match travel dates.
+
+        - Every morning, afternoon, and evening must contain:
+            - place
+            - activity
+
+        - Place names must be real locations.
+
+        - Do not invent attractions, restaurants, or hotels.
 
         """
+
 
 
     response = client.chat.completions.create(
@@ -294,7 +337,7 @@ def generate_trip_plan(
 
     ai_text = response.choices[0].message.content
 
-    # Remove markdown code blocks if AI adds them
+
     ai_text = ai_text.replace("```json", "")
     ai_text = ai_text.replace("```", "")
 
