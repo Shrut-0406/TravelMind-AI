@@ -7,7 +7,7 @@
     <title>{{ trip.destination }} Trip</title>
 
     <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
+          href="{{ url_for('static', filename='../static/css/style.css') }}">
 
 </head>
 
@@ -59,8 +59,6 @@
 {% set children = trip.children %}
 {% set budget = trip.budget %}
 {% set trip_plan = trip.trip_plan %}
-
-{% include "_trip_details.html" %}
 
 </body>
 
