@@ -6,6 +6,7 @@ from flask_login import login_required, current_user
 from services.ai_service import generate_trip_plan
 from services.image_service import get_destination_image
 from services.budget_service import analyze_budget
+from services.map_service import get_coordinates
 
 
 from database.database import db
@@ -147,6 +148,14 @@ def generate():
     # Destination image
 
     image_url = get_destination_image(
+        destination
+    )
+
+    origin_lat, origin_lon = get_coordinates(
+        origin
+    )
+
+    destination_lat, destination_lon = get_coordinates(
         destination
     )
 
@@ -342,6 +351,16 @@ def generate():
         trip_goal=trip_goal,
 
 
-        trip_plan=trip_plan
+        trip_plan=trip_plan,
+
+
+        origin_lat=origin_lat,
+
+        origin_lon=origin_lon,
+
+
+        destination_lat=destination_lat,
+
+        destination_lon=destination_lon,
 
     )

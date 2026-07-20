@@ -68,18 +68,56 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 
-var map = L.map('trip-map').setView([51.1784, -115.5708], 10);
+var originLat = {{ origin_lat|tojson }};
+var originLon = {{ origin_lon|tojson }};
 
-L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {
-        attribution:'© OpenStreetMap contributors'
-    }
-).addTo(map);
+var destinationLat = {{ destination_lat|tojson }};
+var destinationLon = {{ destination_lon|tojson }};
 
-L.marker([51.1784,-115.5708])
-    .addTo(map)
-    .bindPopup("Banff");
+if (
+    originLat &&
+    originLon &&
+    destinationLat &&
+    destinationLon
+) {
+
+    var map = L.map('trip-map');
+
+    L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+            attribution: '© OpenStreetMap contributors'
+        }
+    ).addTo(map);
+
+    // Origin marker
+    var originMarker = L.marker([originLat, originLon])
+        .addTo(map)
+        .bindPopup("🟢 {{ origin }}");
+
+    // Destination marker
+    var destinationMarker = L.marker([destinationLat, destinationLon])
+        .addTo(map)
+        .bindPopup("🔴 {{ destination }}");
+
+    // Route line
+    var route = L.polyline(
+        [
+            [originLat, originLon],
+            [destinationLat, destinationLon]
+        ],
+        {
+            color: "blue",
+            weight: 4
+        }
+    ).addTo(map);
+
+    // Automatically zoom to show both markers
+    map.fitBounds(route.getBounds(), {
+        padding: [40, 40]
+    });
+
+}
 
 </script>
 
