@@ -6,7 +6,10 @@ from flask_login import login_required, current_user
 from services.ai_service import generate_trip_plan
 from services.image_service import get_destination_image
 from services.budget_service import analyze_budget
-from services.map_service import get_coordinates
+from services.map_service import (
+    get_coordinates,
+    extract_locations
+)
 
 
 from database.database import db
@@ -232,7 +235,11 @@ def generate():
 
 
 
+    # Extract map locations
 
+    map_locations = extract_locations(
+        trip_plan
+    )
 
 
 
@@ -300,7 +307,7 @@ def generate():
 
 
 
-
+    print(map_locations)
 
 
     return render_template(
@@ -363,4 +370,9 @@ def generate():
 
         destination_lon=destination_lon,
 
+        map_locations=map_locations,
+
     )
+
+
+    print(map_locations)

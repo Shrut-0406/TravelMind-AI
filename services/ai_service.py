@@ -5,6 +5,9 @@ from dotenv import load_dotenv
 from groq import Groq
 
 
+import time
+from groq import RateLimitError
+
 load_dotenv()
 
 
@@ -310,29 +313,63 @@ def generate_trip_plan(
 
 
 
-    response = client.chat.completions.create(
+    try:
 
-        model="llama-3.3-70b-versatile",
+        response = client.chat.completions.create(
 
-        messages=[
+            model="llama-3.3-70b-versatile",
 
-            {
-                "role": "system",
-                "content": "You are a professional AI travel planner."
-            },
+            messages=[
 
-            {
-                "role": "user",
-                "content": prompt
-            }
+                {
+                    "role": "system",
+                    "content": "You are a professional AI travel planner."
+                },
 
-        ],
+                {
+                    "role": "user",
+                    "content": prompt
+                }
 
-        temperature=0.2,
+            ],
 
-        max_tokens=5000
+            temperature=0.2,
 
-    )
+            max_tokens=3500
+
+        )
+
+
+    except RateLimitError:
+
+        print("Groq rate limit reached. Waiting...")
+
+        time.sleep(30)
+
+
+        response = client.chat.completions.create(
+
+            model="llama-3.3-70b-versatile",
+
+            messages=[
+
+                {
+                    "role": "system",
+                    "content": "You are a professional AI travel planner."
+                },
+
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+
+            ],
+
+            temperature=0.2,
+
+            max_tokens=3500
+
+        )
 
 
     ai_text = response.choices[0].message.content
