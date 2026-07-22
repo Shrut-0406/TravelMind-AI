@@ -5,9 +5,14 @@
 <head>
 
     <title>{{ destination }} Trip</title>
-    
-    <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/style.css') }}">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
 
 </head>
 
@@ -68,56 +73,198 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 
-var originLat = {{ origin_lat|tojson }};
-var originLon = {{ origin_lon|tojson }};
+const locations = {{ map_locations | tojson }};
 
-var destinationLat = {{ destination_lat|tojson }};
-var destinationLon = {{ destination_lon|tojson }};
+var map = L.map("trip-map");
 
-if (
-    originLat &&
-    originLon &&
-    destinationLat &&
-    destinationLon
-) {
 
-    var map = L.map('trip-map');
+L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+        attribution: "© OpenStreetMap contributors"
+    }
+).addTo(map);
 
-    L.tileLayer(
-        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+
+
+var bounds = [];
+var routeCoordinates = [];
+
+
+// Custom icons
+
+var startIcon = L.icon({
+
+    iconUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
+
+    shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+
+    iconSize: [25, 41],
+
+    iconAnchor: [12, 41],
+
+    popupAnchor: [1, -34]
+
+});
+
+
+var stopIcon = L.icon({
+
+    iconUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
+
+    shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+
+    iconSize: [25, 41],
+
+    iconAnchor: [12, 41],
+
+    popupAnchor: [1, -34]
+
+});
+
+
+var endIcon = L.icon({
+
+    iconUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+
+    shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+
+    iconSize: [25, 41],
+
+    iconAnchor: [12, 41],
+
+    popupAnchor: [1, -34]
+
+});
+
+
+
+locations.forEach(function(location, index) {
+
+
+    var icon = stopIcon;
+
+
+    if (index === 0) {
+
+        icon = startIcon;
+
+    }
+
+
+    else if (index === locations.length - 1) {
+
+        icon = endIcon;
+
+    }
+
+
+
+    L.marker(
+
+        [location.lat, location.lon],
+
         {
-            attribution: '© OpenStreetMap contributors'
+            icon: icon
         }
+
+    )
+
+    .addTo(map)
+
+
+    .bindPopup(
+
+        `
+        <b>Day ${location.day}</b><br>
+
+        ${location.time}<br><br>
+
+        <b>${location.place}</b><br>
+
+        ${location.activity}
+
+        `
+
+    );
+
+
+
+    bounds.push([
+
+        location.lat,
+
+        location.lon
+
+    ]);
+
+
+
+    routeCoordinates.push([
+
+        location.lat,
+
+        location.lon
+
+    ]);
+
+
+
+});
+
+
+
+
+
+if (routeCoordinates.length > 1) {
+
+
+    L.polyline(
+
+        routeCoordinates,
+
+        {
+
+            color: "#2563eb",
+
+            weight: 4,
+
+            opacity: 0.8
+
+        }
+
     ).addTo(map);
 
-    // Origin marker
-    var originMarker = L.marker([originLat, originLon])
-        .addTo(map)
-        .bindPopup("🟢 {{ origin }}");
-
-    // Destination marker
-    var destinationMarker = L.marker([destinationLat, destinationLon])
-        .addTo(map)
-        .bindPopup("🔴 {{ destination }}");
-
-    // Route line
-    var route = L.polyline(
-        [
-            [originLat, originLon],
-            [destinationLat, destinationLon]
-        ],
-        {
-            color: "blue",
-            weight: 4
-        }
-    ).addTo(map);
-
-    // Automatically zoom to show both markers
-    map.fitBounds(route.getBounds(), {
-        padding: [40, 40]
-    });
 
 }
+
+
+
+if (bounds.length > 0) {
+
+
+    map.fitBounds(
+
+        bounds,
+
+        {
+
+            padding: [40,40]
+
+        }
+
+    );
+
+
+}
+
+
 
 </script>
 
