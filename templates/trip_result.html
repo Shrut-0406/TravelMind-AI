@@ -182,7 +182,10 @@ locations.forEach(function(location, index) {
     .bindPopup(
 
         `
-        <b>Day ${location.day}</b><br>
+        ${location.day === 0 ? 
+            "<b>Starting Location</b><br>" :
+            "<b>Day " + location.day + "</b><br>"
+        }
 
         ${location.time}<br><br>
 
@@ -225,22 +228,20 @@ locations.forEach(function(location, index) {
 if (routeCoordinates.length > 1) {
 
 
-    L.polyline(
+    const roadRoute = {{ route_coordinates | tojson }};
 
-        routeCoordinates,
+    if (roadRoute.length > 1) {
 
-        {
+        L.polyline(
+            roadRoute,
+            {
+                color: "#2563eb",
+                weight: 5,
+                opacity: 0.9
+            }
+        ).addTo(map);
 
-            color: "#2563eb",
-
-            weight: 4,
-
-            opacity: 0.8
-
-        }
-
-    ).addTo(map);
-
+    }
 
 }
 

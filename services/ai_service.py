@@ -188,13 +188,22 @@ def generate_trip_plan(
         32. Never combine the location and activity together.
 
 
+
+
+        33. Now on the final trip dont assume that they will want to go back to home, so keep in mind that all trips will be one way trips and the last day will be the last location of the trip, so dont suggest that they will go back to home.
+
+        34. Also double check if all the locations are real and exist in the city your visiting.
+
+        35. And if you are suggesting a restaurant, cafe or anything that is not very polular, instead just provide the address. (ex. location : 24 banff anvenu; Activity: Eat the famous poutine at sparky's diner). Please make sure to provide the address of the location
+
+
         Examples:
 
 
         Correct:
 
         {{
-            "place": "Johnston Canyon",
+            "place": "Johnston Canyon, Banff, Alberta, Canada",
             "activity": "Hike the Lower and Upper Falls trail"
         }}
 
@@ -270,17 +279,17 @@ def generate_trip_plan(
                     "date": "YYYY-MM-DD",
 
                     "morning": {{
-                        "place": "real location name",
+                        "place": "real location name, province/state, country",
                         "activity": "activity description"
                     }},
 
                     "afternoon": {{
-                        "place": "real location name",
+                        "place": "real location name, province/state, country",
                         "activity": "activity description"
                     }},
 
                     "evening": {{
-                        "place": "real location name",
+                        "place": "real location name, province/state, country",
                         "activity": "activity description"
                     }}
                 }}

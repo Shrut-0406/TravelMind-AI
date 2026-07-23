@@ -10,7 +10,7 @@ from services.map_service import (
     get_coordinates,
     extract_locations
 )
-
+from services.routing_service import get_route_coordinates
 
 from database.database import db
 from database.models import Trip
@@ -238,7 +238,38 @@ def generate():
     # Extract map locations
 
     map_locations = extract_locations(
-        trip_plan
+        trip_plan,
+        origin
+    )
+
+
+    # Add user's starting location as first map point
+
+    origin_lat, origin_lon = get_coordinates(
+        origin
+    )
+
+
+    if origin_lat and origin_lon:
+
+        map_locations.insert(
+
+            0,
+
+            {
+                "day": 0,
+                "time": "Start",
+                "place": origin,
+                "activity": "Starting location",
+                "lat": origin_lat,
+                "lon": origin_lon
+            }
+
+        )
+
+
+    route_coordinates = get_route_coordinates(
+        map_locations
     )
 
 
@@ -371,6 +402,8 @@ def generate():
         destination_lon=destination_lon,
 
         map_locations=map_locations,
+
+        route_coordinates=route_coordinates,
 
     )
 
