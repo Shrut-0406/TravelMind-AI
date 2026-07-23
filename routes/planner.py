@@ -12,6 +12,7 @@ from services.map_service import (
 )
 from services.routing_service import get_route_coordinates
 
+
 from database.database import db
 from database.models import Trip
 
@@ -46,13 +47,11 @@ def planner_page():
 def generate():
 
 
-
     # Trip Information
 
     origin = request.form["origin"]
 
     destination = request.form["destination"]
-
 
 
 
@@ -68,7 +67,6 @@ def generate():
         request.form["end_date"],
         "%Y-%m-%d"
     )
-
 
 
     if end_date < start_date:
@@ -122,21 +120,19 @@ def generate():
     ]
 
 
-
     interests = request.form.getlist(
         "interests"
     )
-
 
 
     trip_goal = request.form[
         "trip_goal"
     ]
 
+
     traveler_type = request.form[
         "traveler_type"
-        ]
-
+    ]
 
 
 
@@ -148,15 +144,20 @@ def generate():
 
 
 
-    # Destination image
+    # Image
 
     image_url = get_destination_image(
         destination
     )
 
+
+
+    # Coordinates
+
     origin_lat, origin_lon = get_coordinates(
         origin
     )
+
 
     destination_lat, destination_lon = get_coordinates(
         destination
@@ -164,7 +165,10 @@ def generate():
 
 
 
+
+
     # Budget Analysis
+
     budget_analysis = analyze_budget(
 
         budget=budget,
@@ -183,72 +187,64 @@ def generate():
 
 
 
+
+
     # AI Generation
 
     trip_plan = generate_trip_plan(
 
-
         origin=origin,
 
-
         destination=destination,
-
 
         start_date=start_date.strftime(
             "%Y-%m-%d"
         ),
 
-
         end_date=end_date.strftime(
             "%Y-%m-%d"
         ),
 
-
         days=days,
-
 
         adults=adults,
 
-
         children=children,
-
 
         budget=budget,
 
-
         transportation=transportation,
-
 
         accommodation=accommodation,
 
-
         interests=interests,
-
 
         trip_goal=trip_goal,
 
         budget_analysis=budget_analysis,
 
-        traveler_type=traveler_type,
+        traveler_type=traveler_type
 
     )
+
+
 
 
 
     # Extract map locations
 
     map_locations = extract_locations(
+
         trip_plan,
+
         origin
+
     )
 
 
-    # Add user's starting location as first map point
 
-    origin_lat, origin_lon = get_coordinates(
-        origin
-    )
 
+    # Add starting location
 
     if origin_lat and origin_lon:
 
@@ -268,9 +264,31 @@ def generate():
         )
 
 
+
+
+
+    # Road route
+
     route_coordinates = get_route_coordinates(
         map_locations
     )
+
+
+    if not route_coordinates:
+
+        route_coordinates = [
+
+            [
+                location["lat"],
+                location["lon"]
+            ]
+
+            for location in map_locations
+
+        ]
+
+
+
 
 
 
@@ -278,54 +296,43 @@ def generate():
 
     new_trip = Trip(
 
-
         user_id=current_user.id,
-
 
         origin=origin,
 
-
         destination=destination,
-
 
         image_url=image_url,
 
-
         start_date=start_date,
-
 
         end_date=end_date,
 
-
         days=days,
-
 
         adults=adults,
 
-
         children=children,
-
 
         budget=budget,
 
-
         transportation=transportation,
-
 
         accommodation=accommodation,
 
-
         interests=interests_json,
-
 
         trip_goal=trip_goal,
 
+        traveler_type=traveler_type,
 
-        trip_plan=trip_plan
+        trip_plan=trip_plan,
+
+        map_locations=map_locations,
+
+        route_coordinates=route_coordinates
 
     )
-
-
 
 
 
@@ -338,64 +345,57 @@ def generate():
 
 
 
+    print("MAP LOCATIONS:")
     print(map_locations)
+
+    print("ROUTE:")
+    print(route_coordinates)
+
+
+
 
 
     return render_template(
 
         "trip_result.html",
 
-
         origin=origin,
-
 
         destination=destination,
 
-
         image_url=image_url,
-
 
         start_date=start_date.strftime(
             "%Y-%m-%d"
         ),
 
-
         end_date=end_date.strftime(
             "%Y-%m-%d"
         ),
 
-
         days=days,
-
 
         adults=adults,
 
-
         children=children,
-
 
         budget=budget,
 
-
         transportation=transportation,
-
 
         accommodation=accommodation,
 
-
         interests=interests,
-
 
         trip_goal=trip_goal,
 
+        traveler_type=traveler_type,
 
         trip_plan=trip_plan,
-
 
         origin_lat=origin_lat,
 
         origin_lon=origin_lon,
-
 
         destination_lat=destination_lat,
 
@@ -403,9 +403,6 @@ def generate():
 
         map_locations=map_locations,
 
-        route_coordinates=route_coordinates,
+        route_coordinates=route_coordinates
 
     )
-
-
-    print(map_locations)

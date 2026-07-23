@@ -9,6 +9,8 @@
     <link rel="stylesheet"
           href="{{ url_for('static', filename='../static/css/style.css') }}">
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
 </head>
 
 <body>
@@ -52,6 +54,13 @@
 
 </nav>
 
+{% if image_url %}
+
+<img 
+    src="{{ image_url }}"
+    class="trip-result-image"
+>
+
 {% set origin = trip.origin %}
 {% set destination = trip.destination %}
 {% set days = trip.days %}
@@ -59,6 +68,106 @@
 {% set children = trip.children %}
 {% set budget = trip.budget %}
 {% set trip_plan = trip.trip_plan %}
+{% include "_trip_details.html" %}
+
+{% set map_locations = trip.map_locations %}
+{% set route_coordinates = trip.route_coordinates %}
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+
+<script>
+
+const locations = {{ map_locations | tojson }};
+
+const route = {{ route_coordinates | tojson }};
+
+
+var map = L.map("trip-map");
+
+
+L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+        attribution:"© OpenStreetMap contributors"
+    }
+).addTo(map);
+
+
+
+var bounds = [];
+
+
+// Mark locations
+
+locations.forEach(function(location){
+
+
+    L.marker(
+        [
+            location.lat,
+            location.lon
+        ]
+    )
+
+    .addTo(map)
+
+    .bindPopup(
+        `
+        <b>Day ${location.day}</b><br>
+
+        ${location.time}<br><br>
+
+        <b>${location.place}</b><br>
+
+        ${location.activity}
+        `
+    );
+
+
+    bounds.push(
+        [
+            location.lat,
+            location.lon
+        ]
+    );
+
+
+});
+
+
+
+// Road route
+
+if(route.length > 1){
+
+    L.polyline(
+        route,
+        {
+            color:"#2563eb",
+            weight:5
+        }
+    ).addTo(map);
+
+}
+
+
+
+// Zoom
+
+if(bounds.length > 0){
+
+    map.fitBounds(
+        bounds,
+        {
+            padding:[40,40]
+        }
+    );
+
+}
+
+
+</script>
 
 </body>
 

@@ -33,16 +33,15 @@ def view_trip(trip_id):
 
     trip = Trip.query.get_or_404(trip_id)
 
-
-    # Security check:
-    # Prevent user A from viewing user B's trip
     if trip.user_id != current_user.id:
         return "Unauthorized", 403
 
 
     return render_template(
         "saved_trip.html",
-        trip=trip
+        trip=trip,
+        map_locations=trip.map_locations or [],
+        route_coordinates=trip.route_coordinates or []
     )
 
 

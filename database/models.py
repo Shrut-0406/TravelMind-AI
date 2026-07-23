@@ -151,3 +151,11 @@ class Trip(db.Model):
         db.DateTime,
         server_default=db.func.now()
     )
+
+    map_locations = db.Column(
+        db.JSON
+    )
+
+    route_coordinates = db.Column(
+        db.JSON
+    )
