@@ -4,124 +4,248 @@
 
 <head>
 
-    <title>My Trips</title>
+    <title>My Trips - TravelMind AI</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
 
+
 <body>
 
-    <nav>
 
-        <a href="{{ url_for('main.home') }}" style="text-decoration: none; color: #000;">
-            <h2>
-                TravelMind AI
-            </h2>
+<nav>
+
+    <a href="{{ url_for('main.home') }}" 
+       style="text-decoration:none;color:#000;">
+
+        <h2>
+            TravelMind AI
+        </h2>
+
+    </a>
+
+
+    <div>
+
+        <a href="{{ url_for('planner.planner_page') }}">
+
+            <button class="logout-button">
+                ➕ New Trip
+            </button>
+
         </a>
 
-        <div>
-            {% if logged_in %}
 
-            <span class="welcome-user" style="margin-right: 15px;">
+        <a href="{{ url_for('account.account_page') }}">
 
-                👋 {{ username }}
+            <button class="logout-button">
+                👤 Account
+            </button>
 
-            </span>
+        </a>
 
-            <a href="{{ url_for('account.account_page') }}">
-                <button class="logout-button">
-                    👤 Account
-                </button>
-            </a>
-
-            {% else %}
-
-            <a href="/register">
-                <button class="logout-button">Register</button>
-            </a>
-
-            <a href="/login">
-                <button class="logout-button">Login</button>
-            </a>
-
-            {% endif %}
-
-        </div>
-
-    </nav>
-
-    {% if trips %}
-
-    <div class="history-container">
-
-        <h1>My Trips ✈️</h1>
-
-        {% for trip in trips %}
-
-        <div class="trip-dashboard-card">
-
-            {% if trip.image_url %}
-            <img src="{{ trip.image_url }}" class="trip-image">
-            {% endif %}
-
-            <div class="trip-header">
-                <h2>🏔 {{ trip.destination }}</h2>
-                <span class="budget-tag">
-                    ${{ "%.0f"|format(trip.budget) }}
-                </span>
-            </div>
-
-            <div class="trip-details">
-                <p>📍 {{ trip.origin }} → {{ trip.destination }}</p>
-
-                <p>
-                    📅 {{ trip.start_date.strftime("%b %d, %Y") }}
-                    -
-                    {{ trip.end_date.strftime("%b %d, %Y") }}
-                </p>
-
-                <p>
-                    👨‍👩‍👧
-                    {{ trip.adults }} Adults
-                    {% if trip.children > 0 %}
-                    + {{ trip.children }} Children
-                    {% endif %}
-                </p>
-
-                <p>🚗 {{ trip.transportation }}</p>
-                <p>🏨 {{ trip.accommodation }}</p>
-            </div>
-
-            <div class="trip-actions">
-                <a href="{{ url_for('history.view_trip', trip_id=trip.id) }}">
-                    <button class="main-button">View Trip</button>
-                </a>
-
-                <a href="{{ url_for('history.delete_trip', trip_id=trip.id) }}"
-                    onclick="return confirm('Delete this trip?');">
-                    <button class="delete-button">Delete</button>
-                </a>
-            </div>
-
-        </div>
-
-        {% endfor %}
 
     </div>
 
-    {% else %}
 
-    <div class="empty-card">
-        <h2>No trips yet 🌎</h2>
-        <p>Create your first AI-powered travel plan!</p>
+</nav>
 
-        <a href="/planner">
-            <button class="main-button">Create Trip</button>
-        </a>
-    </div>
 
-    {% endif %}
+
+<div class="result-container">
+
+
+<h1>
+    ✈️ My Saved Trips
+</h1>
+
+
+
+{% if trips %}
+
+
+
+<div class="trip-grid">
+
+
+{% for trip in trips %}
+
+
+
+<div class="trip-card">
+
+
+
+{% if trip.image_url %}
+
+<img 
+src="{{ trip.image_url }}"
+class="trip-history-image"
+>
+
+{% endif %}
+
+
+
+<div class="trip-card-content">
+
+
+<h2>
+    {{ trip.destination }}
+</h2>
+
+
+<p>
+
+📍 {{ trip.origin }}
+
+→
+
+{{ trip.destination }}
+
+</p>
+
+
+
+<p>
+
+📅
+
+{{ trip.start_date.strftime("%B %d, %Y") }}
+
+-
+
+{{ trip.end_date.strftime("%B %d, %Y") }}
+
+</p>
+
+
+
+<p>
+
+⏳ {{ trip.days }} Days
+
+</p>
+
+
+
+<p>
+
+👨‍👩‍👧
+
+{{ trip.adults }} Adults
+
+{% if trip.children > 0 %}
+
++ {{ trip.children }} Children
+
+{% endif %}
+
+</p>
+
+
+
+<p>
+
+💰 ${{ trip.budget }}
+
+</p>
+
+
+
+<p class="created-date">
+
+Created:
+
+{{ trip.created_at.strftime("%B %d, %Y") }}
+
+</p>
+
+
+
+<div class="trip-buttons">
+
+
+<a href="{{ url_for('history.view_trip', trip_id=trip.id) }}">
+
+<button>
+
+View Trip
+
+</button>
+
+</a>
+
+
+
+<a href="{{ url_for('history.delete_trip', trip_id=trip.id) }}">
+
+<button class="delete-button">
+
+Delete
+
+</button>
+
+</a>
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+{% endfor %}
+
+
+
+</div>
+
+
+
+{% else %}
+
+
+
+<div class="empty-card">
+
+<h2>
+No Trips Yet 🌎
+</h2>
+
+
+<p>
+Start planning your first adventure!
+</p>
+
+
+<a href="{{ url_for('planner.planner_page') }}">
+
+<button>
+Create Trip
+</button>
+
+</a>
+
+
+</div>
+
+
+{% endif %}
+
+
+
+</div>
+
+
 
 </body>
 

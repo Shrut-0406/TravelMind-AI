@@ -32,6 +32,7 @@ def generate_trip_plan(
     trip_goal,
     budget_analysis,
     traveler_type,
+    weather_forecast
 ):
 
 
@@ -97,6 +98,22 @@ def generate_trip_plan(
         Estimated realistic costs:
 
         {budget_analysis}
+
+
+        Real Weather Forecast:
+
+        {weather_forecast}
+
+        Use this weather forecast when planning the itinerary.
+
+        If rain is expected, recommend indoor activities.
+
+        If temperatures are very high, avoid strenuous afternoon activities.
+
+        If temperatures are cold, recommend appropriate clothing.
+
+        Do not invent weather.
+        Use only the provided forecast.
 
 
         IMPORTANT:

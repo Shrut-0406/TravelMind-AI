@@ -11,6 +11,7 @@ from services.map_service import (
     extract_locations
 )
 from services.routing_service import get_route_coordinates
+from services.weather_service import get_weather_forecast
 
 
 from database.database import db
@@ -163,6 +164,17 @@ def generate():
         destination
     )
 
+    weather_forecast = []
+
+    if destination_lat and destination_lon:
+
+        weather_forecast = get_weather_forecast(
+
+            destination_lat,
+            destination_lon
+
+        )
+
 
 
 
@@ -223,7 +235,9 @@ def generate():
 
         budget_analysis=budget_analysis,
 
-        traveler_type=traveler_type
+        traveler_type=traveler_type,
+
+        weather_forecast=weather_forecast,
 
     )
 
@@ -403,6 +417,8 @@ def generate():
 
         map_locations=map_locations,
 
-        route_coordinates=route_coordinates
+        route_coordinates=route_coordinates,
+
+        weather_forecast=weather_forecast,
 
     )

@@ -54,12 +54,14 @@
 
 </nav>
 
-{% if image_url %}
+{% if trip.image_url %}
 
 <img 
-    src="{{ image_url }}"
-    class="trip-result-image"
+src="{{ trip.image_url }}"
+class="trip-result-image"
 >
+
+{% endif %}
 
 {% set origin = trip.origin %}
 {% set destination = trip.destination %}
@@ -68,6 +70,7 @@
 {% set children = trip.children %}
 {% set budget = trip.budget %}
 {% set trip_plan = trip.trip_plan %}
+{% set weather_forecast = weather %}
 {% include "_trip_details.html" %}
 
 {% set map_locations = trip.map_locations %}

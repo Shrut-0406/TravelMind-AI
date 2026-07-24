@@ -65,6 +65,68 @@
 
     <!-- Weather Tips -->
 
+
+    {% if weather_forecast %}
+
+    <div class="weather-card">
+
+        <h2>🌤 7-Day Weather Forecast</h2>
+
+        <div class="weather-grid">
+
+            {% for day in weather_forecast %}
+
+            <div class="weather-day">
+
+                <h3>{{ day.date }}</h3>
+
+                <div class="weather-icon">
+
+                    {% if "Clear" in day.condition %}
+                    ☀️
+
+                    {% elif "Cloud" in day.condition %}
+                    ⛅
+
+                    {% elif "Rain" in day.condition %}
+                    🌧
+
+                    {% elif "Snow" in day.condition %}
+                    ❄️
+
+                    {% elif "Thunder" in day.condition %}
+                    ⛈
+
+                    {% else %}
+                    🌤
+                    {% endif %}
+
+                </div>
+                <p class="condition">
+                    {{ day.condition }}
+                </p>
+
+                <p>
+                    <strong>{{ day.high }}°C</strong>
+                    /
+                    {{ day.low }}°C
+                </p>
+
+                <p>
+                    🌧 {{ day.rain }}%
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
     {% if trip_plan.weather_tips %}
 
     <section class="trip-section">

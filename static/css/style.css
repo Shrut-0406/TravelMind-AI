@@ -923,3 +923,191 @@ label {
     overflow:hidden;
 
 }
+
+
+
+
+
+/* Trip History */
+
+
+
+.trip-grid {
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(300px,1fr));
+
+    gap:25px;
+
+}
+
+
+
+.trip-card {
+
+    background:white;
+
+    border-radius:15px;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 4px 15px rgba(0,0,0,0.15);
+
+}
+
+
+
+.trip-history-image {
+
+    width:100%;
+
+    height:200px;
+
+    object-fit:cover;
+
+}
+
+
+
+.trip-card-content {
+
+    padding:20px;
+
+}
+
+
+
+.trip-card-content h2 {
+
+    margin-top:0;
+
+}
+
+
+
+.created-date {
+
+    color:#777;
+
+    font-size:14px;
+
+}
+
+
+
+.trip-buttons {
+
+    display:flex;
+
+    gap:10px;
+
+    margin-top:20px;
+
+}
+
+
+
+.trip-buttons button {
+
+    padding:10px 20px;
+
+    border:none;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+}
+
+
+
+.delete-button {
+
+    background:#dc2626;
+
+    color:white;
+
+}
+
+
+
+.empty-card {
+
+    text-align:center;
+
+    padding:50px;
+
+    background:white;
+
+    border-radius:15px;
+
+}
+
+
+
+
+/* Weather Card Styles */
+
+
+.weather-card{
+    margin:40px 0;
+    padding:30px;
+    border-radius:18px;
+    background:white;
+    box-shadow:0 6px 20px rgba(0,0,0,.08);
+}
+
+.weather-card h2{
+    margin-bottom:25px;
+}
+
+.weather-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+
+    gap:20px;
+
+}
+
+.weather-day{
+
+    background:#f5f8fc;
+
+    border-radius:15px;
+
+    padding:20px;
+
+    text-align:center;
+
+    transition:.25s;
+
+}
+
+.weather-day:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 5px 15px rgba(0,0,0,.12);
+
+}
+
+.weather-icon{
+
+    font-size:40px;
+
+    margin:15px 0;
+
+}
+
+.condition{
+
+    color:#666;
+
+    margin-bottom:10px;
+
+}

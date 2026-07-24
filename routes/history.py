@@ -37,11 +37,29 @@ def view_trip(trip_id):
         return "Unauthorized", 403
 
 
+    from services.weather_service import get_weather_forecast
+    from services.map_service import get_coordinates
+
+    lat, lon = get_coordinates(
+        trip.destination
+    )
+
+
+    weather = None
+
+    if lat and lon:
+
+        weather = get_weather_forecast(
+            lat,
+            lon
+        )
+
     return render_template(
         "saved_trip.html",
         trip=trip,
-        map_locations=trip.map_locations or [],
-        route_coordinates=trip.route_coordinates or []
+        map_locations=trip.map_locations,
+        route_coordinates=trip.route_coordinates,
+        weather=weather
     )
 
 
