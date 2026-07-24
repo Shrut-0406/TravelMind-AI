@@ -100,23 +100,44 @@ L.tileLayer(
 
 var bounds = [];
 
+const gasIcon = L.icon({
+
+    iconUrl:
+    "https://cdn-icons-png.flaticon.com/512/2830/2830306.png",
+
+    iconSize:
+    [35,35],
+
+    iconAnchor:
+    [17,35],
+
+    popupAnchor:
+    [0,-35]
+
+});
+
 
 // Mark locations
 
 locations.forEach(function(location){
 
 
-    L.marker(
-        [
-            location.lat,
-            location.lon
-        ]
-    )
+    let popup;
 
-    .addTo(map)
 
-    .bindPopup(
-        `
+    if(location.type === "gas"){
+
+        popup = `
+        ⛽ <b>${location.place}</b><br><br>
+
+        ${location.activity}
+        `;
+
+    }
+
+    else{
+
+        popup = `
         <b>Day ${location.day}</b><br>
 
         ${location.time}<br><br>
@@ -124,7 +145,37 @@ locations.forEach(function(location){
         <b>${location.place}</b><br>
 
         ${location.activity}
-        `
+        `;
+
+    }
+
+
+
+    let markerOptions = {};
+
+
+    if(location.type === "gas"){
+
+        markerOptions.icon = gasIcon;
+
+    }
+
+
+    L.marker(
+
+        [
+            location.lat,
+            location.lon
+        ],
+
+        markerOptions
+
+    )
+
+    .addTo(map)
+
+    .bindPopup(
+        popup
     );
 
 
@@ -137,7 +188,6 @@ locations.forEach(function(location){
 
 
 });
-
 
 
 // Road route

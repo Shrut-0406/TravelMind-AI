@@ -75,196 +75,141 @@
 
 const locations = {{ map_locations | tojson }};
 
+const route = {{ route_coordinates | tojson }};
+
+
 var map = L.map("trip-map");
 
 
 L.tileLayer(
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     {
-        attribution: "© OpenStreetMap contributors"
+        attribution:"© OpenStreetMap contributors"
     }
 ).addTo(map);
 
 
 
 var bounds = [];
-var routeCoordinates = [];
 
-
-// Custom icons
-
-var startIcon = L.icon({
+const gasIcon = L.icon({
 
     iconUrl:
-    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
+    "https://cdn-icons-png.flaticon.com/512/2830/2830306.png",
 
-    shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+    iconSize:
+    [35,35],
 
-    iconSize: [25, 41],
+    iconAnchor:
+    [17,35],
 
-    iconAnchor: [12, 41],
-
-    popupAnchor: [1, -34]
+    popupAnchor:
+    [0,-35]
 
 });
 
 
-var stopIcon = L.icon({
+// Mark locations
 
-    iconUrl:
-    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
-
-    shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
-
-    iconSize: [25, 41],
-
-    iconAnchor: [12, 41],
-
-    popupAnchor: [1, -34]
-
-});
+locations.forEach(function(location){
 
 
-var endIcon = L.icon({
-
-    iconUrl:
-    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
-
-    shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
-
-    iconSize: [25, 41],
-
-    iconAnchor: [12, 41],
-
-    popupAnchor: [1, -34]
-
-});
+    let popup;
 
 
+    if(location.type === "gas"){
 
-locations.forEach(function(location, index) {
+        popup = `
+        ⛽ <b>${location.place}</b><br><br>
 
-
-    var icon = stopIcon;
-
-
-    if (index === 0) {
-
-        icon = startIcon;
+        ${location.activity}
+        `;
 
     }
 
+    else{
 
-    else if (index === locations.length - 1) {
-
-        icon = endIcon;
-
-    }
-
-
-
-    L.marker(
-
-        [location.lat, location.lon],
-
-        {
-            icon: icon
-        }
-
-    )
-
-    .addTo(map)
-
-
-    .bindPopup(
-
-        `
-        ${location.day === 0 ? 
-            "<b>Starting Location</b><br>" :
-            "<b>Day " + location.day + "</b><br>"
-        }
+        popup = `
+        <b>Day ${location.day}</b><br>
 
         ${location.time}<br><br>
 
         <b>${location.place}</b><br>
 
         ${location.activity}
+        `;
 
-        `
+    }
 
+
+
+    let markerOptions = {};
+
+
+    if(location.type === "gas"){
+
+        markerOptions.icon = gasIcon;
+
+    }
+
+
+    L.marker(
+
+        [
+            location.lat,
+            location.lon
+        ],
+
+        markerOptions
+
+    )
+
+    .addTo(map)
+
+    .bindPopup(
+        popup
     );
 
 
-
-    bounds.push([
-
-        location.lat,
-
-        location.lon
-
-    ]);
-
-
-
-    routeCoordinates.push([
-
-        location.lat,
-
-        location.lon
-
-    ]);
-
+    bounds.push(
+        [
+            location.lat,
+            location.lon
+        ]
+    );
 
 
 });
 
 
+// Road route
 
+if(route.length > 1){
 
-
-if (routeCoordinates.length > 1) {
-
-
-    const roadRoute = {{ route_coordinates | tojson }};
-
-    if (roadRoute.length > 1) {
-
-        L.polyline(
-            roadRoute,
-            {
-                color: "#2563eb",
-                weight: 5,
-                opacity: 0.9
-            }
-        ).addTo(map);
-
-    }
+    L.polyline(
+        route,
+        {
+            color:"#2563eb",
+            weight:5
+        }
+    ).addTo(map);
 
 }
 
 
 
-if (bounds.length > 0) {
+// Zoom
 
+if(bounds.length > 0){
 
     map.fitBounds(
-
         bounds,
-
         {
-
-            padding: [40,40]
-
+            padding:[40,40]
         }
-
     );
 
-
 }
-
 
 
 </script>

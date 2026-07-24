@@ -12,6 +12,7 @@ from services.map_service import (
 )
 from services.routing_service import get_route_coordinates
 from services.weather_service import get_weather_forecast
+from services.gas_service import add_gas_stops
 
 
 from database.database import db
@@ -287,6 +288,19 @@ def generate():
         map_locations
     )
 
+    gas_stops = []
+
+    if transportation in [
+        "Car",
+        "Rental Car",
+        "car",
+        "rental car"
+    ]:
+
+        gas_stops = add_gas_stops(
+            route_coordinates
+        )
+
 
     if not route_coordinates:
 
@@ -342,7 +356,7 @@ def generate():
 
         trip_plan=trip_plan,
 
-        map_locations=map_locations,
+        map_locations=map_locations + gas_stops,
 
         route_coordinates=route_coordinates
 
@@ -415,7 +429,7 @@ def generate():
 
         destination_lon=destination_lon,
 
-        map_locations=map_locations,
+        map_locations=map_locations + gas_stops,
 
         route_coordinates=route_coordinates,
 
