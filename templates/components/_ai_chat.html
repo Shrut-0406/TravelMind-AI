@@ -1,0 +1,211 @@
+<div class="ai-chat-container">
+
+    <div class="ai-chat-header">
+
+        🤖 TravelMind Assistant
+
+    </div>
+
+    <div id="chat-history" class="chat-history">
+
+        <div class="ai-message">
+
+            Hi! 👋
+
+            <br><br>
+
+            I can modify your trip.
+
+            <br><br>
+
+            Try asking things like:
+
+            <ul>
+
+                <li>Make this trip cheaper</li>
+
+                <li>Add more hiking</li>
+
+                <li>Replace expensive restaurants</li>
+
+                <li>Add one more day</li>
+
+                <li>Make it more family friendly</li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <div class="chat-input-area">
+
+        <textarea
+
+            id="chat-input"
+
+            placeholder="Ask me to change your trip..."
+
+        ></textarea>
+
+        <button
+
+            id="send-chat"
+
+            class="chat-button"
+
+        >
+
+            Send
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+const tripId = {{ trip_id }};
+
+
+document
+.getElementById("send-chat")
+.addEventListener("click", sendMessage);
+
+
+
+async function sendMessage(){
+
+
+    const input = document.getElementById("chat-input");
+
+    const message = input.value.trim();
+
+
+    if(message===""){
+
+        return;
+
+    }
+
+
+    const history = document.getElementById("chat-history");
+
+
+    history.innerHTML += `
+
+        <div class="user-message">
+
+            ${message}
+
+        </div>
+
+    `;
+
+
+    history.innerHTML += `
+
+        <div id="loading-message" class="ai-message">
+
+            TravelMind is updating your trip...
+
+        </div>
+
+    `;
+
+
+    history.scrollTop = history.scrollHeight;
+
+
+    input.value = "";
+
+
+    try{
+
+
+        const response = await fetch(
+
+            "/chat/trip/" + tripId,
+
+            {
+
+                method:"POST",
+
+                headers:{
+
+                    "Content-Type":"application/json"
+
+                },
+
+                body:JSON.stringify({
+
+                    message:message
+
+                })
+
+            }
+
+        );
+
+
+        const data = await response.json();
+
+
+        document
+        .getElementById("loading-message")
+        .remove();
+
+
+        history.innerHTML += `
+
+            <div class="ai-message">
+
+                ✅ Trip updated successfully!
+
+                <br><br>
+
+                Reloading...
+
+            </div>
+
+        `;
+
+
+        setTimeout(function(){
+
+            location.reload();
+
+        },1200);
+
+
+    }
+
+    catch(error){
+
+
+        document
+        .getElementById("loading-message")
+        .remove();
+
+
+        history.innerHTML += `
+
+            <div class="ai-message">
+
+                ❌ Something went wrong.
+
+            </div>
+
+        `;
+
+    }
+
+
+    history.scrollTop = history.scrollHeight;
+
+}
+
+</script>

@@ -58,6 +58,7 @@ def create_app():
     from routes.history import history
     from routes.auth import auth
     from routes.account import account
+    from routes.chat import chat
 
 
     app.register_blueprint(main)
@@ -69,6 +70,8 @@ def create_app():
     app.register_blueprint(auth)
     
     app.register_blueprint(account)
+
+    app.register_blueprint(chat)
 
 
 

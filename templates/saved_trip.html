@@ -72,6 +72,7 @@ class="trip-result-image"
 {% set trip_plan = trip.trip_plan %}
 {% set weather_forecast = weather %}
 {% include "_trip_details.html" %}
+{% include "components/_ai_chat.html" %}
 
 {% set map_locations = trip.map_locations %}
 {% set route_coordinates = trip.route_coordinates %}

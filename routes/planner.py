@@ -2,35 +2,23 @@ from flask import Blueprint, render_template, request
 
 from flask_login import login_required, current_user
 
-
 from services.ai_service import generate_trip_plan
-from services.image_service import get_destination_image
 from services.budget_service import analyze_budget
-from services.map_service import (
-    get_coordinates,
-    extract_locations
-)
-from services.routing_service import get_route_coordinates
+from services.map_service import get_coordinates
 from services.weather_service import get_weather_forecast
-from services.gas_service import add_gas_stops
-
+from services.trip_builder import rebuild_trip_data
 
 from database.database import db
 from database.models import Trip
 
-
 from datetime import datetime
-
 import json
-
 
 
 planner = Blueprint(
     "planner",
     __name__
 )
-
-
 
 
 @planner.route("/planner")
@@ -43,13 +31,14 @@ def planner_page():
 
 
 
-
 @planner.route("/generate", methods=["POST"])
 @login_required
 def generate():
 
 
+    # -------------------------
     # Trip Information
+    # -------------------------
 
     origin = request.form["origin"]
 
@@ -57,7 +46,9 @@ def generate():
 
 
 
+    # -------------------------
     # Dates
+    # -------------------------
 
     start_date = datetime.strptime(
         request.form["start_date"],
@@ -73,7 +64,7 @@ def generate():
 
     if end_date < start_date:
 
-        return "End date cannot be before start date."
+        return "End date cannot be before start date"
 
 
 
@@ -83,9 +74,9 @@ def generate():
 
 
 
-
-
+    # -------------------------
     # Travelers
+    # -------------------------
 
     adults = int(
         request.form["adults"]
@@ -98,9 +89,9 @@ def generate():
 
 
 
-
-
+    # -------------------------
     # Budget
+    # -------------------------
 
     budget = float(
         request.form["budget"]
@@ -108,9 +99,9 @@ def generate():
 
 
 
-
-
+    # -------------------------
     # Preferences
+    # -------------------------
 
     transportation = request.form[
         "transportation"
@@ -137,24 +128,15 @@ def generate():
     ]
 
 
-
     interests_json = json.dumps(
         interests
     )
 
 
 
-
-
-    # Image
-
-    image_url = get_destination_image(
-        destination
-    )
-
-
-
-    # Coordinates
+    # -------------------------
+    # Coordinates + Weather
+    # -------------------------
 
     origin_lat, origin_lon = get_coordinates(
         origin
@@ -165,22 +147,25 @@ def generate():
         destination
     )
 
+
     weather_forecast = []
+
 
     if destination_lat and destination_lon:
 
         weather_forecast = get_weather_forecast(
 
             destination_lat,
+
             destination_lon
 
         )
 
 
 
-
-
+    # -------------------------
     # Budget Analysis
+    # -------------------------
 
     budget_analysis = analyze_budget(
 
@@ -200,9 +185,9 @@ def generate():
 
 
 
-
-
+    # -------------------------
     # AI Generation
+    # -------------------------
 
     trip_plan = generate_trip_plan(
 
@@ -238,89 +223,15 @@ def generate():
 
         traveler_type=traveler_type,
 
-        weather_forecast=weather_forecast,
+        weather_forecast=weather_forecast
 
     )
 
 
 
-
-
-    # Extract map locations
-
-    map_locations = extract_locations(
-
-        trip_plan,
-
-        origin
-
-    )
-
-
-
-
-    # Add starting location
-
-    if origin_lat and origin_lon:
-
-        map_locations.insert(
-
-            0,
-
-            {
-                "day": 0,
-                "time": "Start",
-                "place": origin,
-                "activity": "Starting location",
-                "lat": origin_lat,
-                "lon": origin_lon
-            }
-
-        )
-
-
-
-
-
-    # Road route
-
-    route_coordinates = get_route_coordinates(
-        map_locations
-    )
-
-    gas_stops = []
-
-    if transportation in [
-        "Car",
-        "Rental Car",
-        "car",
-        "rental car"
-    ]:
-
-        gas_stops = add_gas_stops(
-            route_coordinates
-        )
-
-
-    if not route_coordinates:
-
-        route_coordinates = [
-
-            [
-                location["lat"],
-                location["lon"]
-            ]
-
-            for location in map_locations
-
-        ]
-
-
-
-
-
-
-    # Save trip
+    # -------------------------
+    # Create database object
+    # -------------------------
 
     new_trip = Trip(
 
@@ -329,8 +240,6 @@ def generate():
         origin=origin,
 
         destination=destination,
-
-        image_url=image_url,
 
         start_date=start_date,
 
@@ -354,12 +263,18 @@ def generate():
 
         traveler_type=traveler_type,
 
-        trip_plan=trip_plan,
+        trip_plan=trip_plan
 
-        map_locations=map_locations + gas_stops,
+    )
 
-        route_coordinates=route_coordinates
 
+
+    # -------------------------
+    # Build derived data
+    # -------------------------
+
+    weather_forecast = rebuild_trip_data(
+        new_trip
     )
 
 
@@ -373,13 +288,11 @@ def generate():
 
 
 
-    print("MAP LOCATIONS:")
-    print(map_locations)
+    print("MAP:")
+    print(new_trip.map_locations)
 
     print("ROUTE:")
-    print(route_coordinates)
-
-
+    print(new_trip.route_coordinates)
 
 
 
@@ -391,7 +304,7 @@ def generate():
 
         destination=destination,
 
-        image_url=image_url,
+        image_url=new_trip.image_url,
 
         start_date=start_date.strftime(
             "%Y-%m-%d"
@@ -429,10 +342,12 @@ def generate():
 
         destination_lon=destination_lon,
 
-        map_locations=map_locations + gas_stops,
+        map_locations=new_trip.map_locations,
 
-        route_coordinates=route_coordinates,
+        route_coordinates=new_trip.route_coordinates,
 
         weather_forecast=weather_forecast,
+
+        trip_id=new_trip.id
 
     )

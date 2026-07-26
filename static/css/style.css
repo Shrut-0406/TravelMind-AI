@@ -1111,3 +1111,149 @@ label {
     margin-bottom:10px;
 
 }
+
+
+
+
+
+/* AI Chat Styles */
+
+
+.ai-chat-container{
+
+    position:fixed;
+
+    top:120px;
+
+    right:25px;
+
+    width:340px;
+
+    height:650px;
+
+    background:white;
+
+    border-radius:18px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+
+    display:flex;
+
+    flex-direction:column;
+
+    overflow:hidden;
+
+    z-index:999;
+
+}
+
+
+.ai-chat-header{
+
+    background:#2563eb;
+
+    color:white;
+
+    padding:18px;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+}
+
+
+.chat-history{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:15px;
+
+    background:#f8fafc;
+
+}
+
+
+.ai-message{
+
+    background:white;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    margin-bottom:12px;
+
+    line-height:1.5;
+
+}
+
+
+.user-message{
+
+    background:#2563eb;
+
+    color:white;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    margin-bottom:12px;
+
+    margin-left:35px;
+
+}
+
+
+.chat-input-area{
+
+    padding:15px;
+
+    background:white;
+
+    border-top:1px solid #ddd;
+
+}
+
+
+#chat-input{
+
+    width:100%;
+
+    height:90px;
+
+    resize:none;
+
+    border-radius:12px;
+
+    padding:10px;
+
+    border:1px solid #ccc;
+
+    margin-bottom:10px;
+
+}
+
+
+.chat-button{
+
+    width:100%;
+
+    padding:12px;
+
+    background:#2563eb;
+
+    color:white;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+}
