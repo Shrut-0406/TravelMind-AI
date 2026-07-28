@@ -253,6 +253,18 @@ def generate_trip_plan(
         Do not include ```.
 
 
+        For every travel day, include an overnight object.
+
+        Rules for overnight:
+
+        - overnight.city must be the city where travelers sleep that night.
+        - If the user is staying multiple nights in the same city, repeat the same city every night.
+        - For road trips, choose realistic overnight stop cities along the route.
+        - Never leave overnight.city empty.
+        - Do not invent hotels. Only provide the city.
+        - Also if the user wants to stay at campsites also include a city where there are multiple campsite or if no then maybe 1 campsite. 
+
+
 
         Use this exact structure:
 
@@ -294,6 +306,11 @@ def generate_trip_plan(
 
                 {{
                     "date": "YYYY-MM-DD",
+
+                    "overnight": {{
+                        "city": "Calgary",
+                        "country": "Canada"
+                    }},
 
                     "morning": {{
                         "place": "real location name, province/state, country",

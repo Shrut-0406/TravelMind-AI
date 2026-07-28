@@ -8,6 +8,11 @@ from services.map_service import get_coordinates
 from services.weather_service import get_weather_forecast
 from services.trip_builder import rebuild_trip_data
 
+
+from services.accommodation_service import (
+    get_nearby_accommodations
+)
+
 from database.database import db
 from database.models import Trip
 
@@ -227,6 +232,130 @@ def generate():
 
     )
 
+    # -------------------------
+    # Accommodation Suggestions
+    # -------------------------
+
+    hotel_options = []
+
+    hotel_cache = {}
+
+
+    try:
+
+        for index, day in enumerate(
+            trip_plan["days"],
+            start=1
+        ):
+
+            overnight = day.get("overnight")
+
+
+            if not overnight:
+                print(
+                    "Missing overnight for day:",
+                    index
+                )
+                continue
+
+
+            city = overnight.get("city")
+
+
+            if not city:
+                continue
+
+
+
+            # Check cache
+
+            if city in hotel_cache:
+
+                options = hotel_cache[city]
+
+
+            else:
+
+                lat, lon = get_coordinates(
+                    city
+                )
+
+
+                if not lat or not lon:
+                    continue
+
+
+                options = get_nearby_accommodations(
+
+                    lat,
+
+                    lon,
+
+                    accommodation
+
+                )[:5]
+
+
+                hotel_cache[city] = options
+
+
+
+            hotel_options.append({
+
+                "day": index,
+
+                "city": city,
+
+                "options": options
+
+            })
+
+
+    except Exception as e:
+
+        print(
+            "Hotel generation error:",
+            e
+        )
+
+
+    # -------------------------
+    # Group hotel stays
+    # -------------------------
+
+    grouped_hotels = []
+
+
+    for hotel_day in hotel_options:
+
+
+        if grouped_hotels and grouped_hotels[-1]["city"] == hotel_day["city"]:
+
+
+            grouped_hotels[-1]["end_day"] = hotel_day["day"]
+
+
+        else:
+
+
+            grouped_hotels.append({
+
+                "city": hotel_day["city"],
+
+                "start_day": hotel_day["day"],
+
+                "end_day": hotel_day["day"],
+
+                "options": hotel_day["options"]
+
+            })
+
+
+
+    hotel_options = grouped_hotels
+
+    print("Hotel Options:")
+    print(json.dumps(hotel_options, indent=2))
 
 
     # -------------------------
@@ -263,7 +392,9 @@ def generate():
 
         traveler_type=traveler_type,
 
-        trip_plan=trip_plan
+        trip_plan=trip_plan,
+
+        hotel_options=hotel_options
 
     )
 
@@ -288,11 +419,11 @@ def generate():
 
 
 
-    print("MAP:")
-    print(new_trip.map_locations)
+    # print("MAP:")
+    # print(new_trip.map_locations)
 
-    print("ROUTE:")
-    print(new_trip.route_coordinates)
+    # print("ROUTE:")
+    # print(new_trip.route_coordinates)
 
 
 
@@ -348,6 +479,8 @@ def generate():
 
         weather_forecast=weather_forecast,
 
-        trip_id=new_trip.id
+        trip_id=new_trip.id,
+
+        hotel_options=hotel_options,
 
     )

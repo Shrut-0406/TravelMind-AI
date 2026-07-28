@@ -1,0 +1,78 @@
+{% if hotel_options %}
+
+<div class="hotel-sidebar-card">
+
+    <h2>🏨 Night Stays</h2>
+
+    {% for hotel_city in hotel_options %}
+
+    <div class="hotel-location">
+
+        <h3>📍 {{ hotel_city.city }}</h3>
+
+        <p class="hotel-days">
+
+            {% if hotel_city.start_day == hotel_city.end_day %}
+                Day {{ hotel_city.start_day }}
+            {% else %}
+                Day {{ hotel_city.start_day }} - Day {{ hotel_city.end_day }}
+            {% endif %}
+
+        </p>
+
+        {% if hotel_city.options %}
+
+            {% for hotel in hotel_city.options[:5] %}
+
+            <div class="hotel-option">
+
+                <h4>{{ hotel.name }}</h4>
+
+                <p>📍 {{ hotel.address }}</p>
+
+                {% if hotel.website %}
+                <button class="select-hotel-button">
+                    <a href="{{ hotel.website }}"
+                       target="_blank"
+                       style="text-decoration:none;color:black;">
+                        🌐 Website
+                    </a>
+                </button>
+                {% endif %}
+
+                <button class="select-hotel-button">
+                    Learn More
+                </button>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="no-hotels">
+
+                <h4>🔍 No verified accommodations found</h4>
+
+                <p>
+                    We couldn't find any verified accommodation options for
+                    <strong>{{ hotel_city.city }}</strong>.
+                </p>
+
+                <p>
+                    We recommend checking Google Maps, Booking.com, Airbnb,
+                    or another trusted travel website for the latest
+                    availability and prices.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}

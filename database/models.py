@@ -159,3 +159,10 @@ class Trip(db.Model):
     route_coordinates = db.Column(
         db.JSON
     )
+
+    hotel_options = db.Column(
+        db.JSON
+    )
+    selected_hotel = db.Column(
+        db.JSON
+    )

@@ -66,7 +66,25 @@
 
 {% endif %}
 
-{% include "_trip_details.html" %}
+<div class="trip-layout">
+
+    <div class="hotel-sidebar">
+
+        {% include "components/_hotel_sidebar.html" %}
+
+    </div>
+
+
+
+
+    <div class="trip-content">
+
+        {% include "_trip_details.html" %}
+
+    </div>
+
+
+</div>
 {% include "components/_ai_chat.html" %}
 
 
